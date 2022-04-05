@@ -12,22 +12,33 @@ import Photos
 class AVPhotoCollectionViewController: UICollectionViewController {
     
     var asssetConllection: PHFetchResult<PHAsset>!
-    var albumName: String!
+    var albumTitle: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupCollectionView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigationItem()
+    }
+    
+    func setupNavigationItem() {
+        self.navigationItem.title = albumTitle
+        self.navigationItem.backButtonTitle = "照片"
     }
     
     func setupCollectionView() {
         let flowLayout = UICollectionViewFlowLayout.init()
-        let width = (view.bounds.size.width - 50) / 3
-        flowLayout.minimumInteritemSpacing = 1.0
-        flowLayout.minimumLineSpacing = 16.0
         
-        flowLayout.itemSize = CGSize.init(width: width, height: width)
-        flowLayout.sectionInset = UIEdgeInsets.init(top: 10, left: 15, bottom: 10, right: 15)
+        let width = (view.bounds.size.width - 35) / 3
+        
+        flowLayout.minimumInteritemSpacing = 1.0
+        flowLayout.minimumLineSpacing = 10.0
+        flowLayout.itemSize = CGSize.init(width: width, height: width+60)
+        flowLayout.sectionInset = UIEdgeInsets.init(top: 10, left: 15, bottom: 10, right: 10)
+        
         collectionView.collectionViewLayout = flowLayout
     }
     
