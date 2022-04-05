@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		015AF18F27FAE05B00FB220A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF18E27FAE05B00FB220A /* AppDelegate.swift */; };
 		015AF19127FAE05B00FB220A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF19027FAE05B00FB220A /* SceneDelegate.swift */; };
-		015AF19327FAE05B00FB220A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF19227FAE05B00FB220A /* ViewController.swift */; };
 		015AF19627FAE05B00FB220A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 015AF19427FAE05B00FB220A /* Main.storyboard */; };
 		015AF19927FAE05B00FB220A /* OnePlayer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 015AF19727FAE05B00FB220A /* OnePlayer.xcdatamodeld */; };
 		015AF19B27FAE05B00FB220A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 015AF19A27FAE05B00FB220A /* Assets.xcassets */; };
@@ -17,6 +16,13 @@
 		015AF1A927FAE05B00FB220A /* OnePlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF1A827FAE05B00FB220A /* OnePlayerTests.swift */; };
 		015AF1B327FAE05B00FB220A /* OnePlayerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF1B227FAE05B00FB220A /* OnePlayerUITests.swift */; };
 		015AF1B527FAE05B00FB220A /* OnePlayerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF1B427FAE05B00FB220A /* OnePlayerUITestsLaunchTests.swift */; };
+		017F1A2A27FAE4580059EFE4 /* AVTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F1A2927FAE4580059EFE4 /* AVTabBarViewController.swift */; };
+		017F1A2C27FAE8A60059EFE4 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 017F1A2B27FAE8A60059EFE4 /* Media.xcassets */; };
+		017F1A2E27FB1F150059EFE4 /* AVLocaleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F1A2D27FB1F150059EFE4 /* AVLocaleTableViewController.swift */; };
+		017F1A3027FB24050059EFE4 /* AVAlblumCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F1A2F27FB24050059EFE4 /* AVAlblumCollectionViewController.swift */; };
+		01DA47A427FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */; };
+		01DA47A627FC67D100F7841E /* AVPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DA47A527FC67D100F7841E /* AVPhotoCollectionViewController.swift */; };
+		01DA47A827FC6A6700F7841E /* AVPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DA47A727FC6A6700F7841E /* AVPhotoCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +46,6 @@
 		015AF18B27FAE05B00FB220A /* OnePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		015AF18E27FAE05B00FB220A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		015AF19027FAE05B00FB220A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		015AF19227FAE05B00FB220A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		015AF19527FAE05B00FB220A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		015AF19827FAE05B00FB220A /* OnePlayer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OnePlayer.xcdatamodel; sourceTree = "<group>"; };
 		015AF19A27FAE05B00FB220A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -51,6 +56,13 @@
 		015AF1AE27FAE05B00FB220A /* OnePlayerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnePlayerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		015AF1B227FAE05B00FB220A /* OnePlayerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnePlayerUITests.swift; sourceTree = "<group>"; };
 		015AF1B427FAE05B00FB220A /* OnePlayerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnePlayerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		017F1A2927FAE4580059EFE4 /* AVTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVTabBarViewController.swift; sourceTree = "<group>"; };
+		017F1A2B27FAE8A60059EFE4 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		017F1A2D27FB1F150059EFE4 /* AVLocaleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVLocaleTableViewController.swift; sourceTree = "<group>"; };
+		017F1A2F27FB24050059EFE4 /* AVAlblumCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAlblumCollectionViewController.swift; sourceTree = "<group>"; };
+		01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
+		01DA47A527FC67D100F7841E /* AVPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPhotoCollectionViewController.swift; sourceTree = "<group>"; };
+		01DA47A727FC6A6700F7841E /* AVPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,12 +115,18 @@
 			children = (
 				015AF18E27FAE05B00FB220A /* AppDelegate.swift */,
 				015AF19027FAE05B00FB220A /* SceneDelegate.swift */,
-				015AF19227FAE05B00FB220A /* ViewController.swift */,
 				015AF19427FAE05B00FB220A /* Main.storyboard */,
 				015AF19A27FAE05B00FB220A /* Assets.xcassets */,
 				015AF19C27FAE05B00FB220A /* LaunchScreen.storyboard */,
 				015AF19F27FAE05B00FB220A /* Info.plist */,
 				015AF19727FAE05B00FB220A /* OnePlayer.xcdatamodeld */,
+				017F1A2927FAE4580059EFE4 /* AVTabBarViewController.swift */,
+				017F1A2D27FB1F150059EFE4 /* AVLocaleTableViewController.swift */,
+				017F1A2F27FB24050059EFE4 /* AVAlblumCollectionViewController.swift */,
+				01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */,
+				01DA47A527FC67D100F7841E /* AVPhotoCollectionViewController.swift */,
+				01DA47A727FC6A6700F7841E /* AVPhotoCollectionViewCell.swift */,
+				017F1A2B27FAE8A60059EFE4 /* Media.xcassets */,
 			);
 			path = OnePlayer;
 			sourceTree = "<group>";
@@ -236,6 +254,7 @@
 			files = (
 				015AF19E27FAE05B00FB220A /* LaunchScreen.storyboard in Resources */,
 				015AF19B27FAE05B00FB220A /* Assets.xcassets in Resources */,
+				017F1A2C27FAE8A60059EFE4 /* Media.xcassets in Resources */,
 				015AF19627FAE05B00FB220A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,10 +280,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				015AF19327FAE05B00FB220A /* ViewController.swift in Sources */,
+				01DA47A427FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift in Sources */,
 				015AF19927FAE05B00FB220A /* OnePlayer.xcdatamodeld in Sources */,
+				017F1A2E27FB1F150059EFE4 /* AVLocaleTableViewController.swift in Sources */,
+				017F1A3027FB24050059EFE4 /* AVAlblumCollectionViewController.swift in Sources */,
+				01DA47A627FC67D100F7841E /* AVPhotoCollectionViewController.swift in Sources */,
 				015AF18F27FAE05B00FB220A /* AppDelegate.swift in Sources */,
 				015AF19127FAE05B00FB220A /* SceneDelegate.swift in Sources */,
+				01DA47A827FC6A6700F7841E /* AVPhotoCollectionViewCell.swift in Sources */,
+				017F1A2A27FAE4580059EFE4 /* AVTabBarViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
