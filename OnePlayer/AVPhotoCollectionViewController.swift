@@ -26,7 +26,8 @@ class AVPhotoCollectionViewController: UICollectionViewController {
     
     func setupNavigationItem() {
         self.navigationItem.title = albumTitle
-        self.navigationItem.backButtonTitle = "照片"
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: "照片", style: .plain, target: nil, action: nil)
+        
     }
     
     func setupCollectionView() {
@@ -67,6 +68,10 @@ class AVPhotoCollectionViewController: UICollectionViewController {
         cell.lblCreateDate.text = assset.creationDate?.dateToString()
         
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
 }
 

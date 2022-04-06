@@ -69,6 +69,12 @@ class AVAlblumCollectionViewController : UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        setupNavigationItem()
+    }
+    
+    func setupNavigationItem() {
+        self.navigationItem.title = "相册"
+        self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "照片", style: .plain, target: nil, action: nil)
     }
     
     func setupCollectionView() {
