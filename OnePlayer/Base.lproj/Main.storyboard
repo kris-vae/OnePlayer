@@ -363,7 +363,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5cq-Ur-vpO">
-                        <barButtonItem key="backBarButtonItem" title=" " id="6Gv-20-fH4"/>
+                        <barButtonItem key="leftBarButtonItem" image="icon.navigation.item.delete" id="REX-4N-KiR">
+                            <connections>
+                                <action selector="dismissClicked" destination="q4d-fU-mb1" id="rPI-Ne-XZf"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QHL-qV-W3f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -389,6 +393,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="icon.navigation.item.delete" width="16" height="16"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

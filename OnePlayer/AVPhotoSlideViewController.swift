@@ -38,10 +38,37 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate {
     var rightImgView: UIImageView!
     
     var didInitializeView: Bool = false
+    var noTouchTimer: Timer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeView()
+        self.initializeView()
+        self.setupNavigationBarUI()
+        self.addNoTouchTimerEvent()
+        self.addTouchEvent()
+        
+    }
+    
+    func setupNavigationBarUI() {
+        self.navigationItem.title = String.init(format: "%@(%@/%@)", self.photosTitle[self.currentPhotoIndex], String(self.currentPhotoIndex), String(self.photoTotalNumber))
+    }
+    
+    func addTouchEvent() {
+        self.view.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(resetNoTouchTimer)))
+    }
+    
+    @objc func resetNoTouchTimer() {
+        self.navigationController?.navigationBar.isHidden = false
+        self.invalidateTimer()
+        self.addNoTouchTimerEvent()
+    }
+    
+    func addNoTouchTimerEvent() {
+        self.noTouchTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(hiddenNavigationBar), userInfo: self, repeats: false)
+    }
+    
+    @objc func hiddenNavigationBar() {
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     func initializeImgView() -> UIImageView {
@@ -90,11 +117,19 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    func addSubViews() {
+        self.scrollView.addSubview(self.leftImgView)
+        
+        if self.photoTotalNumber > 1 {
+            self.scrollView.addSubview(self.middleImgView)
+            self.scrollView.addSubview(self.rightImgView)
+        }
+        self.view.addSubview(self.scrollView)
+    }
+    
     func initializeView() {
         self.scrollView = initializeScrollView()
-        
         self.leftImgView = self.initializeImgView()
-        self.scrollView.addSubview(self.leftImgView)
         
         if self.photoTotalNumber == 1 {
             self.leftImgView.image = self.slidePhotos[self.currentPhotoIndex]
@@ -102,12 +137,11 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate {
             self.middleImgView = self.initializeImgView()
             self.middleImgView.image = self.slidePhotos[self.currentPhotoIndex]
             self.rightImgView = self.initializeImgView()
-            self.scrollView.addSubview(self.middleImgView)
-            self.scrollView.addSubview(self.rightImgView)
+          
         }
        
+        self.addSubViews()
         self.addConstraints()
-        self.view.addSubview(self.scrollView)
         
         self.didInitializeView = true
     }
@@ -128,7 +162,15 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func invalidateTimer() {
+        guard let timer = self.noTouchTimer else {
+            return
+        }
+        
+        timer.invalidate()
+    }
+    
+    func setupScrollView() {
         if self.didInitializeView && self.photoTotalNumber > 1 {
             let offset: CGFloat = self.scrollView.contentOffset.x
             
@@ -142,5 +184,14 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate {
             
             self.updateImageView()
         }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.resetNoTouchTimer()
+        self.setupScrollView()
+    }
+    
+    @IBAction func dismissClicked() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
