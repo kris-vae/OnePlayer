@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -329,13 +330,45 @@
                             <outlet property="delegate" destination="eMQ-Xc-Xmu" id="z5e-Yr-H9v"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="GUI-sd-WI7">
-                        <barButtonItem key="backBarButtonItem" title="照片" id="zH1-fu-krb"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="GUI-sd-WI7"/>
+                    <connections>
+                        <segue destination="q4d-fU-mb1" kind="show" identifier="showSlidePhoto" id="grj-kD-aUo"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l5J-mz-0r6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3414" y="129"/>
+        </scene>
+        <!--Photo Slide View Controller-->
+        <scene sceneID="fn7-rc-kNz">
+            <objects>
+                <viewController id="q4d-fU-mb1" customClass="AVPhotoSlideViewController" customModule="OnePlayer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Gmp-EB-bXy">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5u8-E8-COT">
+                                <rect key="frame" x="43" y="435" width="240" height="128"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="CLW-ba-R2b"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="fx5-Bw-SpL"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="qG8-Nh-jH3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="5u8-E8-COT" firstAttribute="bottom" secondItem="qG8-Nh-jH3" secondAttribute="bottom" id="SyO-JL-iZH"/>
+                            <constraint firstItem="5u8-E8-COT" firstAttribute="leading" secondItem="qG8-Nh-jH3" secondAttribute="leading" id="XmT-qU-C3b"/>
+                            <constraint firstItem="5u8-E8-COT" firstAttribute="trailing" secondItem="qG8-Nh-jH3" secondAttribute="trailing" id="Y44-n5-DD5"/>
+                            <constraint firstItem="5u8-E8-COT" firstAttribute="top" secondItem="qG8-Nh-jH3" secondAttribute="top" id="gDe-Gr-Mhl"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="5cq-Ur-vpO">
+                        <barButtonItem key="backBarButtonItem" title=" " id="6Gv-20-fH4"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QHL-qV-W3f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4400" y="129"/>
         </scene>
         <!--设置-->
         <scene sceneID="6Yv-kg-TgL">

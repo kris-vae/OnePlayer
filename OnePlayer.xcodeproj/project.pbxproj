@@ -16,6 +16,7 @@
 		015AF1A927FAE05B00FB220A /* OnePlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF1A827FAE05B00FB220A /* OnePlayerTests.swift */; };
 		015AF1B327FAE05B00FB220A /* OnePlayerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF1B227FAE05B00FB220A /* OnePlayerUITests.swift */; };
 		015AF1B527FAE05B00FB220A /* OnePlayerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF1B427FAE05B00FB220A /* OnePlayerUITestsLaunchTests.swift */; };
+		017DCB8427FD8DAD00166018 /* AVPhotoSlideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017DCB8327FD8DAD00166018 /* AVPhotoSlideViewController.swift */; };
 		017F1A2A27FAE4580059EFE4 /* AVTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F1A2927FAE4580059EFE4 /* AVTabBarViewController.swift */; };
 		017F1A2C27FAE8A60059EFE4 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 017F1A2B27FAE8A60059EFE4 /* Media.xcassets */; };
 		017F1A2E27FB1F150059EFE4 /* AVLocaleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F1A2D27FB1F150059EFE4 /* AVLocaleTableViewController.swift */; };
@@ -56,6 +57,7 @@
 		015AF1AE27FAE05B00FB220A /* OnePlayerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnePlayerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		015AF1B227FAE05B00FB220A /* OnePlayerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnePlayerUITests.swift; sourceTree = "<group>"; };
 		015AF1B427FAE05B00FB220A /* OnePlayerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnePlayerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		017DCB8327FD8DAD00166018 /* AVPhotoSlideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPhotoSlideViewController.swift; sourceTree = "<group>"; };
 		017F1A2927FAE4580059EFE4 /* AVTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVTabBarViewController.swift; sourceTree = "<group>"; };
 		017F1A2B27FAE8A60059EFE4 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		017F1A2D27FB1F150059EFE4 /* AVLocaleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVLocaleTableViewController.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */,
 				01DA47A527FC67D100F7841E /* AVPhotoCollectionViewController.swift */,
 				01DA47A727FC6A6700F7841E /* AVPhotoCollectionViewCell.swift */,
+				017DCB8327FD8DAD00166018 /* AVPhotoSlideViewController.swift */,
 				017F1A2B27FAE8A60059EFE4 /* Media.xcassets */,
 			);
 			path = OnePlayer;
@@ -280,6 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				017DCB8427FD8DAD00166018 /* AVPhotoSlideViewController.swift in Sources */,
 				01DA47A427FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift in Sources */,
 				015AF19927FAE05B00FB220A /* OnePlayer.xcdatamodeld in Sources */,
 				017F1A2E27FB1F150059EFE4 /* AVLocaleTableViewController.swift in Sources */,
