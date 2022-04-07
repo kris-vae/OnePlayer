@@ -129,17 +129,17 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offset: CGFloat = self.scrollView.contentOffset.x
-        
-        if offset >= self.scrollViewWidth * 2 && photoTotalNumber != 1{
-            self.scrollView.contentOffset = CGPoint.init(x: self.scrollViewWidth, y: 0)
-            self.currentPhotoIndex = self.currentPhotoIndex + 1 == self.photoTotalNumber ? 0 : self.currentPhotoIndex + 1
-        } else if offset <= 0 && photoTotalNumber != 1{
-            self.scrollView.contentOffset = CGPoint.init(x: self.scrollViewWidth, y: 0)
-            self.currentPhotoIndex = self.currentPhotoIndex - 1 < 0 ? photoTotalNumber-1 : self.currentPhotoIndex - 1
-        }
-        
-        if self.didInitializeView && photoTotalNumber > 1{
+        if self.didInitializeView && self.photoTotalNumber > 1 {
+            let offset: CGFloat = self.scrollView.contentOffset.x
+            
+            if offset >= self.scrollViewWidth * 2 {
+                self.scrollView.contentOffset = CGPoint.init(x: self.scrollViewWidth, y: 0)
+                self.currentPhotoIndex = self.currentPhotoIndex + 1 == self.photoTotalNumber ? 0 : self.currentPhotoIndex + 1
+            }else if offset <= 0 {
+                self.scrollView.contentOffset = CGPoint.init(x: self.scrollViewWidth, y: 0)
+                self.currentPhotoIndex = self.currentPhotoIndex - 1 < 0 ? photoTotalNumber-1 : self.currentPhotoIndex - 1
+            }
+            
             self.updateImageView()
         }
     }
