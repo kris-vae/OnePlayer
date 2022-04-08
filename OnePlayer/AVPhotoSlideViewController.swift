@@ -41,6 +41,7 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITabl
     var noTouchTimer: Timer!
     
     @IBOutlet var slideTimeChoiceConatinView: UIStackView!
+    let containViewHeight: CGFloat = 460
     @IBOutlet weak var slideSecondTableView: UITableView!
     @IBOutlet weak var middleView: UIView!
     @IBOutlet weak var btnCancel: UIButton!
@@ -206,11 +207,19 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITabl
     
     @IBAction func slideClicked() {
         self.view.addSubview(self.slideTimeChoiceConatinView)
+        self.slideTimeChoiceConatinView.translatesAutoresizingMaskIntoConstraints = false
+        self.slideTimeChoiceConatinView.frame.origin = CGPoint.init(x: 0, y: self.scrollViewHeight)
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.slideTimeChoiceConatinView.frame.origin = CGPoint.init(x: 0, y: self.scrollViewHeight-self.containViewHeight)
+        })
+        
         let leadingConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 15)
         let trailingConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -15)
         let bottomConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .bottom, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
         let heightConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 460)
         self.view.addConstraints([leadingConstraint, trailingConstraint, bottomConstraint])
+        
         self.setupContainView()
         self.invalidateTimer()
     }
@@ -234,8 +243,27 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITabl
         self.btnCancel.layer.cornerRadius = 10
     }
     
+    func removeConstraintsForContainView() {
+        self.view.constraints.map({
+            if let view = $0.firstItem as? UIStackView, view == self.slideTimeChoiceConatinView {
+                self.view.removeConstraint($0)
+            }
+        })
+    }
+    
     @IBAction func cancelClicked() {
-        self.slideTimeChoiceConatinView.removeFromSuperview()
-        self.resetNoTouchTimer()
+        self.removeConstraintsForContainView()
+        self.slideTimeChoiceConatinView.translatesAutoresizingMaskIntoConstraints = true
+        self.slideTimeChoiceConatinView.frame = CGRect.init(x: 15, y: self.scrollViewHeight - self.containViewHeight, width: self.scrollViewWidth-30, height: self.containViewHeight)
+        UIView.animate(withDuration: 0.3,
+                              delay: 0,
+                            options: .curveEaseOut,
+                         animations: {
+            self.slideTimeChoiceConatinView.frame = CGRect.init(x: 15, y: self.scrollViewHeight, width: self.scrollViewWidth-30, height: self.containViewHeight)
+        },
+                         completion: { isCompleted in
+            self.slideTimeChoiceConatinView.removeFromSuperview()
+            self.resetNoTouchTimer()
+        })
     }
 }
