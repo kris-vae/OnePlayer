@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate {
+class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate{
     
     var slidePhotos: Array<UIImage>!
     var photosTitle: Array<String>!
@@ -40,13 +40,21 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate {
     var didInitializeView: Bool = false
     var noTouchTimer: Timer!
     
+    @IBOutlet var slideTimeChoiceConatinView: UIStackView!
+    @IBOutlet weak var slideSecondTableView: UITableView!
+    @IBOutlet weak var middleView: UIView!
+    @IBOutlet weak var btnCancel: UIButton!
+    
+    let slideSecond: Array<Int> = [1, 5, 10, 15, 20, 25, 30, 45, 60]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.initializeView()
         self.setupNavigationBarUI()
         self.addNoTouchTimerEvent()
         self.addTouchEvent()
-        
+        self.tabBarController?.tabBar.isHidden = true
+        self.slideTimeChoiceConatinView.removeFromSuperview()
     }
     
     func setupNavigationBarUI() {
@@ -194,5 +202,40 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate {
     
     @IBAction func dismissClicked() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func slideClicked() {
+        self.view.addSubview(self.slideTimeChoiceConatinView)
+        let leadingConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 15)
+        let trailingConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -15)
+        let bottomConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .bottom, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
+        let heightConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 460)
+        self.view.addConstraints([leadingConstraint, trailingConstraint, bottomConstraint])
+        self.setupContainView()
+        self.invalidateTimer()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.slideSecond.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = self.slideSecondTableView.dequeueReusableCell(withIdentifier: "slideSecond") as? AVSlidePhotoTimeTableViewCell else {
+            return UITableViewCell.init()
+        }
+        
+        cell.lblSecond.text = String.init(format: "%@s", String(slideSecond[indexPath.row]))
+        
+        return cell
+    }
+    
+    func setupContainView() {
+        self.slideSecondTableView.layer.cornerRadius = 10
+        self.btnCancel.layer.cornerRadius = 10
+    }
+    
+    @IBAction func cancelClicked() {
+        self.slideTimeChoiceConatinView.removeFromSuperview()
+        self.resetNoTouchTimer()
     }
 }
