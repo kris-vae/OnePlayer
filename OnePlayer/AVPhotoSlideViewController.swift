@@ -70,6 +70,10 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITabl
         self.navigationController?.navigationBar.isHidden = false
         self.invalidateTimer()
         self.addNoTouchTimerEvent()
+        
+        if self.slideTimeChoiceConatinView.superview == self.view {
+            self.dismissSlideContainView()
+        }
     }
     
     func addNoTouchTimerEvent() {
@@ -251,7 +255,7 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITabl
         })
     }
     
-    @IBAction func cancelClicked() {
+    func dismissSlideContainView() {
         self.removeConstraintsForContainView()
         self.slideTimeChoiceConatinView.translatesAutoresizingMaskIntoConstraints = true
         self.slideTimeChoiceConatinView.frame = CGRect.init(x: 15, y: self.scrollViewHeight - self.containViewHeight, width: self.scrollViewWidth-30, height: self.containViewHeight)
@@ -265,5 +269,9 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITabl
             self.slideTimeChoiceConatinView.removeFromSuperview()
             self.resetNoTouchTimer()
         })
+    }
+    
+    @IBAction func cancelClicked() {
+        self.dismissSlideContainView()
     }
 }
