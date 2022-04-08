@@ -92,6 +92,7 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate {
         scrollView.isPagingEnabled = true
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.contentInsetAdjustmentBehavior = .never
         
         if photoTotalNumber == 1 {
             scrollView.contentSize = CGSize.init(width: self.scrollViewWidth+20, height: self.scrollViewHeight)
