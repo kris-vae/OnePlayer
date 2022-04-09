@@ -50,6 +50,10 @@ class AVAlblumCollectionViewController : UICollectionViewController {
             let manager = PHImageManager.default()
             let assets = fetchResults.map( {$0.firstObject})
             for asset in assets {
+                print(asset?.localIdentifier)
+                if asset == nil {
+                    continue
+                }
                 manager.requestImage(for: asset!,
                               targetSize: PHImageManagerMaximumSize,
                              contentMode: .aspectFill,
@@ -103,7 +107,6 @@ class AVAlblumCollectionViewController : UICollectionViewController {
         cell.thumbnail.image = albumsThumbnail[indexPath.row]
         cell.thumbnail.layer.cornerRadius = 8
         cell.lblAlbumTitle.text = albumsTitle[indexPath.row]
-        
         return cell
     }
     
