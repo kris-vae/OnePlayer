@@ -100,8 +100,8 @@ class AVAlblumCollectionViewController : UICollectionViewController {
             return UICollectionViewCell.init()
         }
         
-        cell.imgThumbnail.image = albumsThumbnail[indexPath.row]
-        cell.imgThumbnail.layer.cornerRadius = 8
+        cell.thumbnail.image = albumsThumbnail[indexPath.row]
+        cell.thumbnail.layer.cornerRadius = 8
         cell.lblAlbumTitle.text = albumsTitle[indexPath.row]
         
         return cell

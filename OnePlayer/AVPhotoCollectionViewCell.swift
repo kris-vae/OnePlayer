@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class AVPhotoCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var imgThumbnail: UIImageView!
+    @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var lblPhotoTitle: UILabel!
     @IBOutlet weak var lblCreateDate: UILabel!
 }

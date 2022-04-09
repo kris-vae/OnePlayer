@@ -10,6 +10,6 @@ import UIKit
 
 class AVAlbumCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var imgThumbnail: UIImageView!
+    @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var lblAlbumTitle: UILabel!
 }

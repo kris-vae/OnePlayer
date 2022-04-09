@@ -92,7 +92,7 @@ class AVPhotoCollectionViewController: UICollectionViewController {
                                     contentMode: .aspectFill,
                                         options: self.requestImageOptions,
                                   resultHandler: {(result, _) in
-            cell.imgThumbnail.image = result
+            cell.thumbnail.image = result
         }))
         
         return cell
