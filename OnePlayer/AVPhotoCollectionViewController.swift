@@ -11,51 +11,28 @@ import Photos
 
 class AVPhotoCollectionViewController: UICollectionViewController {
     
-    var asssetConllection: PHFetchResult<PHAsset>!
+    let cacheImageManager: PHCachingImageManager = PHCachingImageManager.init()
+    
+    var requestImageOptions: PHImageRequestOptions {
+        get {
+            let result: PHImageRequestOptions = PHImageRequestOptions.init()
+            result.deliveryMode = .highQualityFormat
+            return result
+        }
+    }
+    
+    var assets: Array<PHAsset>! {
+        didSet {
+            cacheImageManager.stopCachingImages(for: self.assets, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: self.requestImageOptions)
+        }
+        
+        willSet {
+            cacheImageManager.stopCachingImagesForAllAssets()
+        }
+    }
+    
     var albumTitle: String!
-    
-    var photosAssset: Array<UIImage> {
-        get {
-            var photos: Array<UIImage> = []
-            let manager = PHImageManager.default()
-            for index in 0..<asssetConllection.count {
-                let assset = asssetConllection.object(at: index)
-                manager.requestImage(for: assset,
-                                     targetSize: PHImageManagerMaximumSize,
-                                     contentMode: .aspectFill,
-                                     options: PHImageRequestOptions.init(),
-                                     resultHandler: { (image, hashable) in
-                    photos.append(image!)
-                })
-            }
-            
-            return photos
-        }
-    }
-    
-    var photosTitle: Array<String> {
-        get {
-            var titles: Array<String> = []
-            for index in 0..<asssetConllection.count {
-                titles.append(asssetConllection.object(at: index).localIdentifier)
-            }
-            
-            return titles
-        }
-    }
-    
-    var photosCreateDate: Array<String> {
-        get {
-            var date: Array<String> = []
-            for index in 0..<asssetConllection.count {
-                date.append((asssetConllection.object(at: index).creationDate?.dateToString())!)
-            }
-            
-            return date
-        }
-    }
-    
-    var disSelectedIndex: Int!
+    var didSelectedIndex: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,8 +46,6 @@ class AVPhotoCollectionViewController: UICollectionViewController {
     
     func setupNavigationItem() {
         self.navigationItem.title = albumTitle
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: "照片", style: .plain, target: nil, action: nil)
-        
     }
     
     func setupCollectionView() {
@@ -87,7 +62,7 @@ class AVPhotoCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return asssetConllection.count
+        return self.assets.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -96,9 +71,29 @@ class AVPhotoCollectionViewController: UICollectionViewController {
             return UICollectionViewCell.init()
         }
         
-        cell.imgThumbnail.image = photosAssset[indexPath.row]
-        cell.lblPhotoTitle.text = photosTitle[indexPath.row]
-        cell.lblCreateDate.text = photosCreateDate[indexPath.row]
+        let manager: PHImageManager = PHImageManager.default()
+        
+        if cell.tag != 0 {
+            manager.cancelImageRequest(PHImageRequestID(cell.tag))
+        }
+        
+        let asset: PHAsset = assets[indexPath.row]
+        
+        if let createDate = asset.creationDate {
+            cell.lblCreateDate.text = createDate.dateToString()
+        }else {
+            cell.lblCreateDate.text = nil
+        }
+        
+        cell.lblPhotoTitle.text = asset.localIdentifier
+        
+        cell.tag = Int(manager.requestImage(for: asset,
+                                     targetSize: PHImageManagerMaximumSize,
+                                    contentMode: .aspectFill,
+                                        options: self.requestImageOptions,
+                                  resultHandler: {(result, _) in
+            cell.imgThumbnail.image = result
+        }))
         
         return cell
     }
@@ -107,15 +102,15 @@ class AVPhotoCollectionViewController: UICollectionViewController {
         guard let photoSlideViewController = segue.destination as? AVPhotoSlideViewController else {
             return
         }
-        
-        photoSlideViewController.currentPhotoIndex = self.disSelectedIndex
-        photoSlideViewController.slidePhotos = self.photosAssset
-        photoSlideViewController.photosTitle = self.photosTitle
+        photoSlideViewController.assets = self.assets
+        photoSlideViewController.currentPhotoIndex = self.didSelectedIndex
+        photoSlideViewController.slideImages = Array.init(repeating: nil, count: self.assets.count)
+       
         
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.disSelectedIndex = indexPath.row
+        self.didSelectedIndex = indexPath.row
         performSegue(withIdentifier: "showSlidePhoto", sender: self)
     }
 }

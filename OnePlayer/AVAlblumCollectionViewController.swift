@@ -48,9 +48,9 @@ class AVAlblumCollectionViewController : UICollectionViewController {
             var thumbnails: Array<UIImage> = []
             
             let manager = PHImageManager.default()
-            let asssets = fetchResults.map( {$0.firstObject})
-            for assset in asssets {
-                manager.requestImage(for: assset!,
+            let assets = fetchResults.map( {$0.firstObject})
+            for asset in assets {
+                manager.requestImage(for: asset!,
                               targetSize: PHImageManagerMaximumSize,
                              contentMode: .aspectFill,
                                  options: PHImageRequestOptions.init(),
@@ -63,7 +63,7 @@ class AVAlblumCollectionViewController : UICollectionViewController {
         }
     }
     
-    var asssetCollection: PHFetchResult<PHAsset>!
+    var assetCollection: PHFetchResult<PHAsset>!
     var albumTitle: String!
     
     override func viewDidLoad() {
@@ -107,18 +107,28 @@ class AVAlblumCollectionViewController : UICollectionViewController {
         return cell
     }
     
+    func getAssetFrom(_ fetchResult: PHFetchResult<PHAsset>) -> Array<PHAsset> {
+        var result: Array<PHAsset> = []
+        
+        for index in 0..<self.assetCollection.count {
+            result.append(self.assetCollection.object(at: index))
+        }
+        
+        return result
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let photoCollectionViewController = segue.destination as? AVPhotoCollectionViewController else {
             return
         }
         
-        photoCollectionViewController.asssetConllection = self.asssetCollection
+        photoCollectionViewController.assets = getAssetFrom(self.assetCollection)
         photoCollectionViewController.albumTitle = self.albumTitle
         
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.asssetCollection = self.fetchResults[indexPath.row]
+        self.assetCollection = self.fetchResults[indexPath.row]
         self.albumTitle = self.albumsTitle[indexPath.row]
         performSegue(withIdentifier: "showPhoto", sender: self)
     }

@@ -7,19 +7,36 @@
 
 import Foundation
 import UIKit
+import Photos
 
 class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate{
     
-    var slidePhotos: Array<UIImage>!
-    var photosTitle: Array<String>!
-
+    var slideImages: Array<UIImage?>!
+    
+    var photosTitle: Array<String> {
+        get {
+            var result: Array<String> = []
+            
+            for asset in self.assets {
+                result.append(asset.localIdentifier)
+            }
+            
+            return result
+        }
+    }
+    var assets: Array<PHAsset>!
+    
     var photoTotalNumber: Int {
         get {
-            return photosTitle.count
+            return self.assets.count
         }
     }
     
-    var currentPhotoIndex: Int!
+    var currentPhotoIndex: Int! {
+        didSet {
+            self.navigationItem.title = String.init(format: "%@(%@/%@)", self.photosTitle[self.currentPhotoIndex], String(Int(self.currentPhotoIndex)), String(self.photoTotalNumber))
+        }
+    }
     
     var scrollView: UIScrollView!
     var scrollViewWidth: CGFloat {
@@ -150,10 +167,10 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITabl
         self.leftImgView = self.initializeImgView()
         
         if self.photoTotalNumber == 1 {
-            self.leftImgView.image = self.slidePhotos[self.currentPhotoIndex]
+            self.setImageFor(imageView: self.leftImgView, atAssetIndex: self.currentPhotoIndex)
         }else {
             self.middleImgView = self.initializeImgView()
-            self.middleImgView.image = self.slidePhotos[self.currentPhotoIndex]
+            self.setImageFor(imageView: self.middleImgView, atAssetIndex: self.currentPhotoIndex)
             self.rightImgView = self.initializeImgView()
           
         }
@@ -164,19 +181,34 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITabl
         self.didInitializeView = true
     }
     
+    func setImageFor(imageView: UIImageView, atAssetIndex index: Int) {
+        if let image = slideImages[index] {
+            imageView.image = image
+            return
+        }
+        
+        let asset = self.assets[index]
+        let options = PHImageRequestOptions.init()
+        options.deliveryMode = .highQualityFormat
+        PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options, resultHandler: { (result, _) in
+            imageView.image = result
+            self.slideImages[index] = result
+        })
+    }
+    
     func updateImageView() {
         if self.currentPhotoIndex == 0 {
-            self.leftImgView.image = slidePhotos[photoTotalNumber-1]
-            self.middleImgView.image = slidePhotos[self.currentPhotoIndex]
-            self.rightImgView.image = slidePhotos[self.currentPhotoIndex+1]
+            self.setImageFor(imageView: self.leftImgView, atAssetIndex: self.photoTotalNumber-1)
+            self.setImageFor(imageView: self.middleImgView, atAssetIndex: self.currentPhotoIndex)
+            self.setImageFor(imageView: self.rightImgView, atAssetIndex: self.currentPhotoIndex+1)
         }else if self.currentPhotoIndex == photoTotalNumber - 1{
-            self.leftImgView.image = slidePhotos[self.currentPhotoIndex-1]
-            self.middleImgView.image = slidePhotos[self.currentPhotoIndex]
-            self.rightImgView.image = slidePhotos[0]
+            self.setImageFor(imageView: self.leftImgView, atAssetIndex: self.currentPhotoIndex-1)
+            self.setImageFor(imageView: self.middleImgView, atAssetIndex: self.currentPhotoIndex)
+            self.setImageFor(imageView: self.rightImgView, atAssetIndex: 0)
         }else {
-            self.leftImgView.image = slidePhotos[self.currentPhotoIndex-1]
-            self.middleImgView.image = slidePhotos[self.currentPhotoIndex]
-            self.rightImgView.image = slidePhotos[self.currentPhotoIndex+1]
+            self.setImageFor(imageView: self.leftImgView, atAssetIndex: self.currentPhotoIndex-1)
+            self.setImageFor(imageView: self.middleImgView, atAssetIndex: self.currentPhotoIndex)
+            self.setImageFor(imageView: self.rightImgView, atAssetIndex: self.currentPhotoIndex+1)
         }
     }
     
@@ -191,7 +223,6 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITabl
                 self.scrollView.contentOffset = CGPoint.init(x: self.scrollViewWidth, y: 0)
                 self.currentPhotoIndex = self.currentPhotoIndex - 1 < 0 ? photoTotalNumber-1 : self.currentPhotoIndex - 1
             }
-            
             self.updateImageView()
         }
     }
@@ -225,7 +256,7 @@ class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITabl
         guard let cell = self.slideSecondTableView.dequeueReusableCell(withIdentifier: "slideSecond") as? AVSlidePhotoTimeTableViewCell else {
             return UITableViewCell.init()
         }
-        
+        cell.selectionStyle = .none
         cell.lblSecond.text = String.init(format: "%@s", String(Int(slideSecond[indexPath.row])))
         
         return cell
