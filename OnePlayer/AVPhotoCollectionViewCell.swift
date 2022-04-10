@@ -17,6 +17,7 @@ class AVPhotoCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        photoView.layer.cornerRadius = 8
         photoView.image = nil
         photoTitle.text = "Untitled"
         photoCreateDate.text = "Unknow"
@@ -24,6 +25,7 @@ class AVPhotoCollectionViewCell: UICollectionViewCell {
     
     func update(title: String?, creationDate: Date?) {
         photoTitle.text = title ?? "Untitled"
+        photoTitle.sizeToFit()
         photoCreateDate.text = creationDate?.dateToString() ?? "Unknow"
     }
 }

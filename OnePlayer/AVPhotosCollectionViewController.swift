@@ -58,7 +58,7 @@ class AVPhotosCollectionViewController: UICollectionViewController {
         
         flowLayout.minimumInteritemSpacing = 1.0
         flowLayout.minimumLineSpacing = 10.0
-        flowLayout.itemSize = CGSize.init(width: width, height: width+60)
+        flowLayout.itemSize = CGSize.init(width: width, height: width+40)
         flowLayout.sectionInset = UIEdgeInsets.init(top: 10, left: 15, bottom: 10, right: 10)
         
         collectionView.collectionViewLayout = flowLayout
@@ -93,12 +93,10 @@ class AVPhotosCollectionViewController: UICollectionViewController {
 
 extension AVPhotosCollectionViewController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-      
-        guard let change = changeInstance.changeDetails(for: assets) else {
-            return
-        }
-        
         DispatchQueue.main.sync {
+            guard let change = changeInstance.changeDetails(for: assets) else {
+                return
+            }
             assets = change.fetchResultAfterChanges
             collectionView.reloadData()
         }

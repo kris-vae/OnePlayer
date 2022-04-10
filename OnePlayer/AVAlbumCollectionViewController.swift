@@ -15,6 +15,21 @@ class AVAlbumCollectionViewController : UICollectionViewController {
     var userAssetsArr = [PHFetchResult<PHAsset>].init()
     
     var userCollections = PHFetchResult<PHAssetCollection>()
+    var albumsTitle = [String].init()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        getPermissionIfNecessary(completeHandler: { granted in
+            guard granted else { return }
+            self.fetchAssets()
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        })
+        setupCollectionView()
+        setupNavigationItem()
+        PHPhotoLibrary.shared().register(self)
+    }
     
     func fetchAssets() {
         fetchAllPhotosAssets()
@@ -35,11 +50,12 @@ class AVAlbumCollectionViewController : UICollectionViewController {
     func fetchUserAssets() {
         userCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: nil)
         for index in 0..<userCollections.count {
-            let collection = userCollections[index]
-            let fetchedAssets = PHAsset.fetchAssets(in: collection, options: nil)
+            let album = userCollections[index]
+            let fetchedAssets = PHAsset.fetchAssets(in: album, options: nil)
             
             if fetchedAssets.count != 0 {
                 userAssetsArr.append(fetchedAssets)
+                albumsTitle.append(album.localizedTitle!)
             }
         }
     }
@@ -57,20 +73,6 @@ class AVAlbumCollectionViewController : UICollectionViewController {
     
     deinit {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        getPermissionIfNecessary(completeHandler: { granted in
-            guard granted else { return }
-            self.fetchAssets()
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        })
-        setupCollectionView()
-        setupNavigationItem()
-        PHPhotoLibrary.shared().register(self)
     }
     
     func setupNavigationItem() {
@@ -108,15 +110,12 @@ class AVAlbumCollectionViewController : UICollectionViewController {
             coverAsset = allPhotos.firstObject
             cell.update(title: "最近访问")
         }else {
-            let albumTitle = userCollections.object(at: row-1).localizedTitle
             coverAsset = userAssetsArr[row-1].firstObject
-            cell.update(title: albumTitle)
+            cell.update(title: albumsTitle[row-1])
         }
         
         guard let asset = coverAsset else { return cell }
-        cell.photoView.fetchImageAsset(asset, targetSize: cell.bounds.size, completionHandler: { success in
-            
-        })
+        cell.photoView.fetchImageAsset(asset, targetSize: cell.bounds.size, completionHandler: nil)
         
         return cell
     }
@@ -154,8 +153,10 @@ extension AVAlbumCollectionViewController: PHPhotoLibraryChangeObserver {
             
             if let changeDetails = changeInstance.changeDetails(for: userCollections) {
                 userCollections = changeDetails.fetchResultAfterChanges
+                albumsTitle.removeAll()
+                userAssetsArr.removeAll()
+                fetchUserAssets()
             }
-            
             collectionView.reloadData()
         }
     }

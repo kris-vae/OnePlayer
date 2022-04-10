@@ -267,31 +267,34 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="rsQ-oy-MKL" customClass="AVPhotoCollectionViewCell" customModule="OnePlayer" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="110" height="137"/>
+                                <rect key="frame" x="87" y="0.0" width="240" height="265"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="wTV-CN-CsY">
-                                    <rect key="frame" x="0.0" y="0.0" width="110" height="137"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="240" height="265"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="center" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cxX-T8-OFC">
-                                            <rect key="frame" x="0.0" y="0.0" width="110" height="137"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="265"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sYZ-2r-27q">
-                                                    <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
+                                                    <rect key="frame" x="65" y="0.0" width="110" height="110"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="sYZ-2r-27q" secondAttribute="height" multiplier="1:1" id="3S3-8S-aOd"/>
                                                         <constraint firstAttribute="width" constant="110" id="LAw-0P-cgF"/>
                                                         <constraint firstAttribute="height" constant="110" id="tnr-Tu-gWL"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PZ-wb-8h0">
-                                                    <rect key="frame" x="37.5" y="110" width="35.5" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PZ-wb-8h0">
+                                                    <rect key="frame" x="102.5" y="110" width="35.5" height="17"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="Y32-pX-Hrs"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7XJ-au-Lsc">
-                                                    <rect key="frame" x="42" y="127" width="26.5" height="10"/>
+                                                    <rect key="frame" x="107" y="127" width="26.5" height="10"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="10" id="uJL-0o-FpM"/>
                                                     </constraints>
@@ -299,6 +302,10 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s01-b3-4JA">
+                                                    <rect key="frame" x="0.0" y="137" width="240" height="128"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="7XJ-au-Lsc" firstAttribute="top" secondItem="3PZ-wb-8h0" secondAttribute="bottom" id="ULy-wY-q5v"/>
@@ -330,7 +337,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l5J-mz-0r6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3414" y="129"/>
+            <point key="canvasLocation" x="3413.04347826087" y="128.57142857142856"/>
         </scene>
         <!--Photo View Controller-->
         <scene sceneID="fn7-rc-kNz">

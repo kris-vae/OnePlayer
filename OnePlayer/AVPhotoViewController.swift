@@ -383,20 +383,3 @@ extension PHAsset {
     }
 }
 
-//extension AVPhotoViewController: PHPhotoLibraryChangeObserver {
-//    func photoLibraryDidChange(_ changeInstance: PHChange) {
-//        guard let change = changeInstance.changeDetails(for: asset), let updatedAsset = change.objectAfterChanges else { return }
-//        
-//        DispatchQueue.main.sync {
-//            asset = updatedAsset
-//            imageView.fetchImageAsset(
-//                asset,
-//                targetSize: view.bounds.size
-//            ) { [weak self] _ in
-//                guard let self = self else { return }
-//                self.updateFavoriteButton()
-//                self.updateUndoButton()
-//            }
-//        }
-//    }
-//}
