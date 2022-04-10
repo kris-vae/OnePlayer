@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Photos
 
-class AVPhotoCollectionViewController: UICollectionViewController {
+class AVPhotosCollectionViewController: UICollectionViewController {
     
     let cacheImageManager: PHCachingImageManager = PHCachingImageManager.init()
     

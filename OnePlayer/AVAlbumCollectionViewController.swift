@@ -9,26 +9,22 @@ import Foundation
 import UIKit
 import Photos
 
-class AVAlblumCollectionViewController : UICollectionViewController {
+class AVAlbumCollectionViewController : UICollectionViewController, PHPhotoLibraryChangeObserver {
+    var albumList: PHFetchResult<PHAssetCollection> = AVFecthAsssetCollectionManager.albumList
     
-    var albumList: PHFetchResult<PHAssetCollection> {
-        get {
-            return PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: nil)
-        }
-    }
+    var fetchResults: Array<PHFetchResult<PHAsset>> = AVFecthAsssetCollectionManager.fetchresult
     
-    var fetchResults: Array<PHFetchResult<PHAsset>> {
-        get {
-            var result: Array<PHFetchResult<PHAsset>> = []
-            
-            result.append(PHAsset.fetchAssets(with: PHFetchOptions.init()))
-            for index in 0..<albumList.count {
-                result.append(PHAsset.fetchAssets(in: albumList.object(at: index), options: .none))
-            }
-            
-            return result
-        }
-    }
+//    var fetchResults: Array<PHFetchResult<PHAsset>> {
+//        get {
+//            var result: Array<PHFetchResult<PHAsset>> = []
+//            result.append(PHAsset.fetchAssets(with: PHFetchOptions.init()))
+//            for index in 0..<albumList.count {
+//                result.append(PHAsset.fetchAssets(in: albumList.object(at: index), options: .none))
+//            }
+//
+//            return result
+//        }
+//    }
     
     var albumsTitle: Array<String> {
         get {
@@ -49,9 +45,11 @@ class AVAlblumCollectionViewController : UICollectionViewController {
             
             let manager = PHImageManager.default()
             let assets = fetchResults.map( {$0.firstObject})
+            print(assets.count)
             for asset in assets {
-                print(asset?.localIdentifier)
+    
                 if asset == nil {
+                    thumbnails.append(UIImage.init())
                     continue
                 }
                 manager.requestImage(for: asset!,
@@ -70,10 +68,51 @@ class AVAlblumCollectionViewController : UICollectionViewController {
     var assetCollection: PHFetchResult<PHAsset>!
     var albumTitle: String!
     
+    var sections: [AlbumCollectionSectionType] = [.all, .smartAlbums, .userCollections]
+    var allPhotos = PHFetchResult<PHAsset>()
+    var smartAlbums = PHFetchResult<PHAssetCollection>()
+    var userCollections = PHFetchResult<PHAssetCollection>()
+    
+    func fetchAssets() {
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [
+            NSSortDescriptor(
+                key: "creationDate",
+          ascending: false)
+        ]
+        
+        allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
+        
+        userCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: nil)
+    }
+    
+    func getPermissionIfNecessary(completeHandler: @escaping (Bool) -> Void) {
+        guard PHPhotoLibrary.authorizationStatus() != .authorized else {
+            completeHandler(true)
+            return
+        }
+        
+        PHPhotoLibrary.requestAuthorization({ status in
+            completeHandler(status == .authorized ? true : false)
+        })
+    }
+    
+    deinit {
+        PHPhotoLibrary.shared().unregisterChangeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        getPermissionIfNecessary(completeHandler: { granted in
+            guard granted else { return }
+            self.fetchAssets()
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        })
         setupCollectionView()
         setupNavigationItem()
+        PHPhotoLibrary.shared().register(self)
     }
     
     func setupNavigationItem() {
@@ -95,7 +134,7 @@ class AVAlblumCollectionViewController : UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fetchResults.count
+        return userCollections.count + 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -134,5 +173,25 @@ class AVAlblumCollectionViewController : UICollectionViewController {
         self.assetCollection = self.fetchResults[indexPath.row]
         self.albumTitle = self.albumsTitle[indexPath.row]
         performSegue(withIdentifier: "showPhoto", sender: self)
+    }
+}
+
+extension AVAlbumCollectionViewController: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        DispatchQueue.main.sync {
+            if let changeDetails = changeInstance.changeDetails(for: allPhotos) {
+                allPhotos = changeDetails.fetchResultAfterChanges
+            }
+            
+            if let changeDetails = changeInstance.changeDetails(for: smartAlbums) {
+                smartAlbums = changeDetails.fetchResultAfterChanges
+            }
+            
+            if let changeDetails = changeInstance.changeDetails(for: userCollections) {
+                userCollections = changeDetails.fetchResultAfterChanges
+            }
+            
+            collectionView.reloadData()
+        }
     }
 }

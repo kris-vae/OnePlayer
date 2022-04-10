@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Photos
 
-class AVPhotoSlideViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate{
+class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate{
     
     var slideImages: Array<UIImage?>!
     
