@@ -10,31 +10,64 @@ import UIKit
 import Photos
 
 class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate{
+    let cacheImageManager = PHCachingImageManager.init()
     
-    var slideImages: Array<UIImage?>!
+    var assetArr: [PHAsset] {
+        get {
+            var result: [PHAsset] = []
+            assets.enumerateObjects { (object, _, _) in result.append(object)}
+            return result
+        }
+    }
+    
+    var assets: PHFetchResult<PHAsset> {
+        didSet {
+            let options = PHImageRequestOptions.init()
+            options.deliveryMode = .highQualityFormat
+            cacheImageManager.startCachingImages(for: assetArr,
+                                          targetSize: PHImageManagerMaximumSize,
+                                         contentMode: .aspectFit,
+                                             options: nil)
+        }
+        
+        willSet {
+            cacheImageManager.stopCachingImagesForAllAssets()
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+      fatalError("init(coder:) not implemented")
+    }
+
+    init?(assets: PHFetchResult<PHAsset>, index: Int, coder: NSCoder) {
+        self.assets = assets
+        self.currentPhotoIndex = index
+        super.init(coder: coder)
+    }
+    
+    var photos: Array<UIImage?>!
     
     var photosTitle: Array<String> {
         get {
             var result: Array<String> = []
             
-            for asset in self.assets {
+            for asset in assetArr {
                 result.append(asset.localIdentifier)
             }
             
             return result
         }
     }
-    var assets: Array<PHAsset>!
     
     var photoTotalNumber: Int {
         get {
-            return self.assets.count
+            return assets.count
         }
     }
     
     var currentPhotoIndex: Int! {
         didSet {
-            self.navigationItem.title = String.init(format: "%@(%@/%@)", self.photosTitle[self.currentPhotoIndex], String(Int(self.currentPhotoIndex)), String(self.photoTotalNumber))
+            navigationItem.title = String.init(format: "%@(%@/%@)", assetArr[currentPhotoIndex].originalFilename!, String(Int(currentPhotoIndex)+1), String(photoTotalNumber))
         }
     }
     
@@ -69,38 +102,39 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.initializeView()
-        self.setupNavigationBarUI()
-        self.addTouchEvent()
-        self.tabBarController?.tabBar.isHidden = true
-        self.slideTimeChoiceConatinView.removeFromSuperview()
+        photos = Array.init(repeating: nil, count: photoTotalNumber)
+        initializeView()
+        setupNavigationBarUI()
+        addTouchEvent()
+        tabBarController?.tabBar.isHidden = true
+        slideTimeChoiceConatinView.removeFromSuperview()
     }
     
     func setupNavigationBarUI() {
-        self.navigationItem.title = String.init(format: "%@(%@/%@)", self.photosTitle[self.currentPhotoIndex], String(Int(self.currentPhotoIndex)), String(self.photoTotalNumber))
+        navigationItem.title = String.init(format: "%@(%@/%@)", assetArr[currentPhotoIndex].originalFilename!, String(Int(currentPhotoIndex)+1), String(photoTotalNumber))
     }
     
     func addTouchEvent() {
         let tapGestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(changeStatus))
         tapGestureRecognizer.delegate = self
-        self.scrollView.addGestureRecognizer(tapGestureRecognizer)
+        scrollView.addGestureRecognizer(tapGestureRecognizer)
     }
     
     @objc func changeStatus() {
-        if self.isSliding {
-            self.isSliding = false
-            self.slideTimer.invalidate()
-            self.slideTimer = nil
-            self.navigationController?.navigationBar.isHidden = false
+        if isSliding {
+            isSliding = false
+            slideTimer.invalidate()
+            slideTimer = nil
+            navigationController?.navigationBar.isHidden = false
         }else {
-            guard let isHidden = self.navigationController?.navigationBar.isHidden else {
+            guard let isHidden = navigationController?.navigationBar.isHidden else {
                 return
             }
-            if self.slideTimeChoiceConatinView.superview == self.view {
-                self.dismissSlideContainView()
-                self.navigationController?.navigationBar.isHidden = false
+            if slideTimeChoiceConatinView.superview == view {
+                dismissSlideContainView()
+                navigationController?.navigationBar.isHidden = false
             }else {
-                self.navigationController?.navigationBar.isHidden = !isHidden
+                navigationController?.navigationBar.isHidden = !isHidden
             }
         }
     }
@@ -111,8 +145,8 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UITableView
         imgView.translatesAutoresizingMaskIntoConstraints = false
         imgView.contentMode = .scaleAspectFit
         
-        let imgViewWidthConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: imgView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: self.scrollViewWidth)
-        let imgViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: imgView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: self.scrollViewHeight)
+        let imgViewWidthConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: imgView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: scrollViewWidth)
+        let imgViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: imgView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: scrollViewHeight)
         
         imgView.addConstraints([imgViewWidthConstraint, imgViewHeightConstraint])
         
@@ -120,7 +154,7 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UITableView
     }
     
     func initializeScrollView() -> UIScrollView {
-        let scrollView: UIScrollView = UIScrollView.init(frame: CGRect.init(x: 0, y: 0, width: self.scrollViewWidth, height: self.scrollViewHeight))
+        let scrollView: UIScrollView = UIScrollView.init(frame: CGRect.init(x: 0, y: 0, width: scrollViewWidth, height: scrollViewHeight))
     
         scrollView.delegate = self
         scrollView.isPagingEnabled = true
@@ -129,131 +163,131 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UITableView
         scrollView.contentInsetAdjustmentBehavior = .never
         
         if photoTotalNumber == 1 {
-            scrollView.contentSize = CGSize.init(width: self.scrollViewWidth+20, height: self.scrollViewHeight)
+            scrollView.contentSize = CGSize.init(width: scrollViewWidth+20, height: scrollViewHeight)
             scrollView.contentOffset = CGPoint.init(x: 0, y: 0)
         }else {
-            scrollView.contentSize = CGSize.init(width: self.scrollViewWidth*3, height: self.scrollViewHeight)
-            scrollView.contentOffset = CGPoint.init(x: self.scrollViewWidth, y: 0)
+            scrollView.contentSize = CGSize.init(width: scrollViewWidth*3, height: scrollViewHeight)
+            scrollView.contentOffset = CGPoint.init(x: scrollViewWidth, y: 0)
         }
         
         return scrollView
     }
     
     func addConstraints() {
-        self.scrollView.addConstraint(NSLayoutConstraint.init(item: self.leftImgView, attribute: .centerX, relatedBy: .equal, toItem: self.scrollView, attribute: .centerX, multiplier: 1, constant: 0))
-        self.scrollView.addConstraint(NSLayoutConstraint.init(item: self.leftImgView, attribute: .centerY, relatedBy: .equal, toItem: self.scrollView, attribute: .centerY, multiplier: 1, constant: 0))
+        scrollView.addConstraint(NSLayoutConstraint.init(item: leftImgView, attribute: .centerX, relatedBy: .equal, toItem: scrollView, attribute: .centerX, multiplier: 1, constant: 0))
+        scrollView.addConstraint(NSLayoutConstraint.init(item: leftImgView, attribute: .centerY, relatedBy: .equal, toItem: self.scrollView, attribute: .centerY, multiplier: 1, constant: 0))
         
-        if self.photoTotalNumber > 1 {
-            self.scrollView.addConstraint(NSLayoutConstraint.init(item: self.middleImgView, attribute: .leading, relatedBy: .equal, toItem: self.leftImgView, attribute: .trailing, multiplier: 1, constant: 0))
-            self.scrollView.addConstraint(NSLayoutConstraint.init(item: self.middleImgView, attribute: .centerY, relatedBy: .equal, toItem: self.scrollView, attribute: .centerY, multiplier: 1, constant: 0))
+        if photoTotalNumber > 1 {
+            scrollView.addConstraint(NSLayoutConstraint.init(item: middleImgView, attribute: .leading, relatedBy: .equal, toItem: leftImgView, attribute: .trailing, multiplier: 1, constant: 0))
+            scrollView.addConstraint(NSLayoutConstraint.init(item: middleImgView, attribute: .centerY, relatedBy: .equal, toItem: scrollView, attribute: .centerY, multiplier: 1, constant: 0))
             
-            self.scrollView.addConstraint(NSLayoutConstraint.init(item: self.rightImgView, attribute: .leading, relatedBy: .equal, toItem: self.middleImgView, attribute: .trailing, multiplier: 1, constant: 0))
-            self.scrollView.addConstraint(NSLayoutConstraint.init(item: self.rightImgView, attribute: .centerY, relatedBy: .equal, toItem: self.scrollView, attribute: .centerY, multiplier: 1, constant: 0))
+            scrollView.addConstraint(NSLayoutConstraint.init(item: rightImgView, attribute: .leading, relatedBy: .equal, toItem: middleImgView, attribute: .trailing, multiplier: 1, constant: 0))
+            scrollView.addConstraint(NSLayoutConstraint.init(item: rightImgView, attribute: .centerY, relatedBy: .equal, toItem: scrollView, attribute: .centerY, multiplier: 1, constant: 0))
         }
     }
     
     func addSubViews() {
-        self.scrollView.addSubview(self.leftImgView)
+        scrollView.addSubview(leftImgView)
         
-        if self.photoTotalNumber > 1 {
-            self.scrollView.addSubview(self.middleImgView)
-            self.scrollView.addSubview(self.rightImgView)
+        if photoTotalNumber > 1 {
+            scrollView.addSubview(middleImgView)
+            scrollView.addSubview(rightImgView)
         }
-        self.view.addSubview(self.scrollView)
+        view.addSubview(scrollView)
     }
     
     func initializeView() {
-        self.scrollView = initializeScrollView()
-        self.leftImgView = self.initializeImgView()
+        scrollView = initializeScrollView()
+        leftImgView = initializeImgView()
         
-        if self.photoTotalNumber == 1 {
-            self.setImageFor(imageView: self.leftImgView, atAssetIndex: self.currentPhotoIndex)
+        if photoTotalNumber == 1 {
+            setImageFor(imageView: leftImgView, atAssetIndex: currentPhotoIndex)
         }else {
-            self.middleImgView = self.initializeImgView()
-            self.setImageFor(imageView: self.middleImgView, atAssetIndex: self.currentPhotoIndex)
-            self.rightImgView = self.initializeImgView()
+            middleImgView = initializeImgView()
+            setImageFor(imageView: middleImgView, atAssetIndex: currentPhotoIndex)
+            rightImgView = initializeImgView()
           
         }
        
-        self.addSubViews()
-        self.addConstraints()
+        addSubViews()
+        addConstraints()
         
-        self.didInitializeView = true
+        didInitializeView = true
     }
     
     func setImageFor(imageView: UIImageView, atAssetIndex index: Int) {
-        if let image = slideImages[index] {
+        if let image = photos[index] {
             imageView.image = image
             return
         }
         
-        let asset = self.assets[index]
         let options = PHImageRequestOptions.init()
         options.deliveryMode = .highQualityFormat
-        PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options, resultHandler: { (result, _) in
-            imageView.image = result
-            self.slideImages[index] = result
+        PHImageManager.default().requestImage(for: assetArr[index], targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options, resultHandler: { (image, _) in
+            imageView.image = image
+            self.photos[index] = image
         })
+        
     }
     
     func updateImageView() {
-        if self.currentPhotoIndex == 0 {
-            self.setImageFor(imageView: self.leftImgView, atAssetIndex: self.photoTotalNumber-1)
-            self.setImageFor(imageView: self.middleImgView, atAssetIndex: self.currentPhotoIndex)
-            self.setImageFor(imageView: self.rightImgView, atAssetIndex: self.currentPhotoIndex+1)
-        }else if self.currentPhotoIndex == photoTotalNumber - 1{
-            self.setImageFor(imageView: self.leftImgView, atAssetIndex: self.currentPhotoIndex-1)
-            self.setImageFor(imageView: self.middleImgView, atAssetIndex: self.currentPhotoIndex)
-            self.setImageFor(imageView: self.rightImgView, atAssetIndex: 0)
+        if currentPhotoIndex == 0 {
+            setImageFor(imageView: leftImgView, atAssetIndex: photoTotalNumber-1)
+            setImageFor(imageView: middleImgView, atAssetIndex: currentPhotoIndex)
+            setImageFor(imageView: rightImgView, atAssetIndex: currentPhotoIndex+1)
+        }else if currentPhotoIndex == photoTotalNumber - 1{
+            setImageFor(imageView: leftImgView, atAssetIndex: currentPhotoIndex-1)
+            setImageFor(imageView: middleImgView, atAssetIndex: currentPhotoIndex)
+            setImageFor(imageView: rightImgView, atAssetIndex: 0)
         }else {
-            self.setImageFor(imageView: self.leftImgView, atAssetIndex: self.currentPhotoIndex-1)
-            self.setImageFor(imageView: self.middleImgView, atAssetIndex: self.currentPhotoIndex)
-            self.setImageFor(imageView: self.rightImgView, atAssetIndex: self.currentPhotoIndex+1)
+            setImageFor(imageView: leftImgView, atAssetIndex: currentPhotoIndex-1)
+            setImageFor(imageView: middleImgView, atAssetIndex: currentPhotoIndex)
+            setImageFor(imageView: rightImgView, atAssetIndex: currentPhotoIndex+1)
         }
     }
     
     func setupScrollView() {
-        if self.didInitializeView && self.photoTotalNumber > 1 {
-            let offset: CGFloat = self.scrollView.contentOffset.x
+        if didInitializeView && photoTotalNumber > 1 {
+            let offset: CGFloat = scrollView.contentOffset.x
             
-            if offset >= self.scrollViewWidth * 2 {
-                self.scrollView.contentOffset = CGPoint.init(x: self.scrollViewWidth, y: 0)
-                self.currentPhotoIndex = self.currentPhotoIndex + 1 == self.photoTotalNumber ? 0 : self.currentPhotoIndex + 1
+            if offset >= scrollViewWidth * 2 {
+                scrollView.contentOffset = CGPoint.init(x: scrollViewWidth, y: 0)
+                currentPhotoIndex = currentPhotoIndex + 1 == photoTotalNumber ? 0 : currentPhotoIndex + 1
             }else if offset <= 0 {
-                self.scrollView.contentOffset = CGPoint.init(x: self.scrollViewWidth, y: 0)
-                self.currentPhotoIndex = self.currentPhotoIndex - 1 < 0 ? photoTotalNumber-1 : self.currentPhotoIndex - 1
+                scrollView.contentOffset = CGPoint.init(x: scrollViewWidth, y: 0)
+                currentPhotoIndex = currentPhotoIndex - 1 < 0 ? photoTotalNumber-1 : currentPhotoIndex - 1
             }
-            self.updateImageView()
+            updateImageView()
         }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.setupScrollView()
+        setupScrollView()
     }
     
     @IBAction func dismissClicked() {
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func slideClicked() {
-        self.view.addSubview(self.slideTimeChoiceConatinView)
-        self.slideTimeChoiceConatinView.translatesAutoresizingMaskIntoConstraints = false
-        self.slideTimeChoiceConatinView.frame.origin = CGPoint.init(x: 0, y: self.scrollViewHeight)
+        view.addSubview(slideTimeChoiceConatinView)
+        slideTimeChoiceConatinView.translatesAutoresizingMaskIntoConstraints = false
+        slideTimeChoiceConatinView.frame.origin = CGPoint.init(x: 0, y: scrollViewHeight)
         
         UIView.animate(withDuration: 0.3, animations: {
             self.slideTimeChoiceConatinView.frame.origin = CGPoint.init(x: 0, y: self.scrollViewHeight-self.containViewHeight)
         })
         
-        self.addConstraintsForContainView()
-        self.setupContainView()
+        addConstraintsForContainView()
+        setupContainView()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.slideSecond.count
+        return slideSecond.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = self.slideSecondTableView.dequeueReusableCell(withIdentifier: "slideSecond") as? AVSlidePhotoTimeTableViewCell else {
+        guard let cell = slideSecondTableView.dequeueReusableCell(withIdentifier: "slideSecond") as? AVSlidePhotoTimeTableViewCell else {
             return UITableViewCell.init()
         }
         cell.selectionStyle = .none
@@ -290,43 +324,43 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UITableView
     }
     
     func slideStartWith(_ timeInterval: TimeInterval) {
-        self.isSliding = true
-        self.scrollView.canCancelContentTouches = false
-        self.scrollView.delaysContentTouches = true
-        self.navigationController?.navigationBar.isHidden = false
-        self.slideTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(leftSlide), userInfo: nil, repeats: true)
+        isSliding = true
+        scrollView.canCancelContentTouches = false
+        scrollView.delaysContentTouches = true
+        navigationController?.navigationBar.isHidden = false
+        slideTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(leftSlide), userInfo: nil, repeats: true)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.slideStartWith(self.slideSecond[indexPath.row])
-        self.dismissSlideContainView()
+        slideStartWith(slideSecond[indexPath.row])
+        dismissSlideContainView()
     }
     
     func setupContainView() {
-        self.slideSecondTableView.layer.cornerRadius = 10
-        self.btnCancel.layer.cornerRadius = 10
+        slideSecondTableView.layer.cornerRadius = 10
+        btnCancel.layer.cornerRadius = 10
     }
     
     func addConstraintsForContainView() {
-        let leadingConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 15)
-        let trailingConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -15)
-        let bottomConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .bottom, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
-        let heightConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: self.slideTimeChoiceConatinView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 460)
-        self.view.addConstraints([leadingConstraint, trailingConstraint, bottomConstraint])
+        let leadingConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: slideTimeChoiceConatinView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 15)
+        let trailingConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: slideTimeChoiceConatinView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: -15)
+        let bottomConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: slideTimeChoiceConatinView, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
+        let heightConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: slideTimeChoiceConatinView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 460)
+        view.addConstraints([leadingConstraint, trailingConstraint, bottomConstraint])
     }
     
     func removeConstraintsForContainView() {
-        self.view.constraints.map({
-            if let view = $0.firstItem as? UIStackView, view == self.slideTimeChoiceConatinView {
-                self.view.removeConstraint($0)
+        view.constraints.map({
+            if let view = $0.firstItem as? UIStackView, view == slideTimeChoiceConatinView {
+                view.removeConstraint($0)
             }
         })
     }
     
     func dismissSlideContainView() {
-        self.removeConstraintsForContainView()
-        self.slideTimeChoiceConatinView.translatesAutoresizingMaskIntoConstraints = true
-        self.slideTimeChoiceConatinView.frame = CGRect.init(x: 15, y: self.scrollViewHeight - self.containViewHeight, width: self.scrollViewWidth-30, height: self.containViewHeight)
+        removeConstraintsForContainView()
+        slideTimeChoiceConatinView.translatesAutoresizingMaskIntoConstraints = true
+        slideTimeChoiceConatinView.frame = CGRect.init(x: 15, y: scrollViewHeight - containViewHeight, width: scrollViewWidth-30, height: containViewHeight)
         UIView.animate(withDuration: 0.3,
                               delay: 0,
                             options: .curveEaseOut,
@@ -339,6 +373,30 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UITableView
     }
     
     @IBAction func cancelClicked() {
-        self.dismissSlideContainView()
+        dismissSlideContainView()
     }
 }
+
+extension PHAsset {
+    var originalFilename: String? {
+        return PHAssetResource.assetResources(for: self).first?.originalFilename
+    }
+}
+
+//extension AVPhotoViewController: PHPhotoLibraryChangeObserver {
+//    func photoLibraryDidChange(_ changeInstance: PHChange) {
+//        guard let change = changeInstance.changeDetails(for: asset), let updatedAsset = change.objectAfterChanges else { return }
+//        
+//        DispatchQueue.main.sync {
+//            asset = updatedAsset
+//            imageView.fetchImageAsset(
+//                asset,
+//                targetSize: view.bounds.size
+//            ) { [weak self] _ in
+//                guard let self = self else { return }
+//                self.updateFavoriteButton()
+//                self.updateUndoButton()
+//            }
+//        }
+//    }
+//}

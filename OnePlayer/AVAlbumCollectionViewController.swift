@@ -9,71 +9,19 @@ import Foundation
 import UIKit
 import Photos
 
-class AVAlbumCollectionViewController : UICollectionViewController, PHPhotoLibraryChangeObserver {
-    var albumList: PHFetchResult<PHAssetCollection> = AVFecthAsssetCollectionManager.albumList
-    
-    var fetchResults: Array<PHFetchResult<PHAsset>> = AVFecthAsssetCollectionManager.fetchresult
-    
-//    var fetchResults: Array<PHFetchResult<PHAsset>> {
-//        get {
-//            var result: Array<PHFetchResult<PHAsset>> = []
-//            result.append(PHAsset.fetchAssets(with: PHFetchOptions.init()))
-//            for index in 0..<albumList.count {
-//                result.append(PHAsset.fetchAssets(in: albumList.object(at: index), options: .none))
-//            }
-//
-//            return result
-//        }
-//    }
-    
-    var albumsTitle: Array<String> {
-        get {
-            var titles: Array<String> = []
-            
-            titles.append("最近访问")
-            for index in 0..<albumList.count {
-                titles.append(albumList.object(at: index).localizedTitle!)
-            }
-            
-            return titles
-        }
-    }
-    
-    var albumsThumbnail: Array<UIImage> {
-        get {
-            var thumbnails: Array<UIImage> = []
-            
-            let manager = PHImageManager.default()
-            let assets = fetchResults.map( {$0.firstObject})
-            print(assets.count)
-            for asset in assets {
-    
-                if asset == nil {
-                    thumbnails.append(UIImage.init())
-                    continue
-                }
-                manager.requestImage(for: asset!,
-                              targetSize: PHImageManagerMaximumSize,
-                             contentMode: .aspectFill,
-                                 options: PHImageRequestOptions.init(),
-                           resultHandler: { (image, hashable) in
-                    thumbnails.append(image!)
-                })
-            }
-            
-            return thumbnails
-        }
-    }
-    
-    var assetCollection: PHFetchResult<PHAsset>!
-    var albumTitle: String!
-    
-    var sections: [AlbumCollectionSectionType] = [.all, .smartAlbums, .userCollections]
+class AVAlbumCollectionViewController : UICollectionViewController {
     var allPhotos = PHFetchResult<PHAsset>()
     var smartAlbums = PHFetchResult<PHAssetCollection>()
+    var userAssetsArr = [PHFetchResult<PHAsset>].init()
+    
     var userCollections = PHFetchResult<PHAssetCollection>()
     
     func fetchAssets() {
+        fetchAllPhotosAssets()
+        fetchUserAssets()
+    }
+    
+    func fetchAllPhotosAssets() {
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [
             NSSortDescriptor(
@@ -82,8 +30,18 @@ class AVAlbumCollectionViewController : UICollectionViewController, PHPhotoLibra
         ]
         
         allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
-        
+    }
+    
+    func fetchUserAssets() {
         userCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: nil)
+        for index in 0..<userCollections.count {
+            let collection = userCollections[index]
+            let fetchedAssets = PHAsset.fetchAssets(in: collection, options: nil)
+            
+            if fetchedAssets.count != 0 {
+                userAssetsArr.append(fetchedAssets)
+            }
+        }
     }
     
     func getPermissionIfNecessary(completeHandler: @escaping (Bool) -> Void) {
@@ -116,8 +74,8 @@ class AVAlbumCollectionViewController : UICollectionViewController, PHPhotoLibra
     }
     
     func setupNavigationItem() {
-        self.navigationItem.title = "相册"
-        self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "照片", style: .plain, target: nil, action: nil)
+        navigationItem.title = "相册"
+        navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "照片", style: .plain, target: nil, action: nil)
     }
     
     func setupCollectionView() {
@@ -134,45 +92,52 @@ class AVAlbumCollectionViewController : UICollectionViewController, PHPhotoLibra
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return userCollections.count + 1
+        return userAssetsArr.count + 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "albumCell", for: indexPath) as? AVAlbumCollectionViewCell else {
-            return UICollectionViewCell.init()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AVAlbumCollectionViewCell.reuseIdentifier, for: indexPath) as? AVAlbumCollectionViewCell else {
+            fatalError("Unable to dequeue AVAlbumCollectionViewCell")
         }
         
-        cell.thumbnail.image = albumsThumbnail[indexPath.row]
-        cell.thumbnail.layer.cornerRadius = 8
-        cell.lblAlbumTitle.text = albumsTitle[indexPath.row]
+        let row = indexPath.row
+        var coverAsset: PHAsset?
+        
+        if row == 0 {
+            coverAsset = allPhotos.firstObject
+            cell.update(title: "最近访问")
+        }else {
+            let albumTitle = userCollections.object(at: row-1).localizedTitle
+            coverAsset = userAssetsArr[row-1].firstObject
+            cell.update(title: albumTitle)
+        }
+        
+        guard let asset = coverAsset else { return cell }
+        cell.photoView.fetchImageAsset(asset, targetSize: cell.bounds.size, completionHandler: { success in
+            
+        })
+        
         return cell
     }
     
-    func getAssetFrom(_ fetchResult: PHFetchResult<PHAsset>) -> Array<PHAsset> {
-        var result: Array<PHAsset> = []
+    @IBSegueAction func makeAVPhotosCollectionViewController(_ coder: NSCoder) -> AVPhotosCollectionViewController? {
+        guard let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first
+        else { return nil}
         
-        for index in 0..<self.assetCollection.count {
-            result.append(self.assetCollection.object(at: index))
+        let assets: PHFetchResult<PHAsset>
+        let title: String
+        
+        let row = selectedIndexPath.row
+        if row == 0 {
+            assets = allPhotos
+            title = "最近访问"
+        }else {
+            assets = userAssetsArr[row-1]
+            title = userCollections.object(at: row-1).localizedTitle!
         }
         
-        return result
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let photoCollectionViewController = segue.destination as? AVPhotoCollectionViewController else {
-            return
-        }
-        
-        photoCollectionViewController.assets = getAssetFrom(self.assetCollection)
-        photoCollectionViewController.albumTitle = self.albumTitle
-        
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.assetCollection = self.fetchResults[indexPath.row]
-        self.albumTitle = self.albumsTitle[indexPath.row]
-        performSegue(withIdentifier: "showPhoto", sender: self)
+        return AVPhotosCollectionViewController.init(assets: assets, title: title, coder: coder)
     }
 }
 

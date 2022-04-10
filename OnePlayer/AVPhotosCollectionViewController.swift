@@ -21,21 +21,23 @@ class AVPhotosCollectionViewController: UICollectionViewController {
         }
     }
     
-    var assets: Array<PHAsset>! {
-        didSet {
-            cacheImageManager.stopCachingImages(for: self.assets, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: self.requestImageOptions)
-        }
-        
-        willSet {
-            cacheImageManager.stopCachingImagesForAllAssets()
-        }
+    var assets: PHFetchResult<PHAsset>!
+    
+    var didSelectedIndex: Int!
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
     
-    var albumTitle: String!
-    var didSelectedIndex: Int!
+    init?(assets: PHFetchResult<PHAsset>, title: String, coder: NSCoder) {
+      self.assets = assets
+      super.init(coder: coder)
+      self.title = title
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        PHPhotoLibrary.shared().register(self)
         setupCollectionView()
     }
     
@@ -44,8 +46,9 @@ class AVPhotosCollectionViewController: UICollectionViewController {
         setupNavigationItem()
     }
     
+    
     func setupNavigationItem() {
-        self.navigationItem.title = albumTitle
+        navigationItem.title = title
     }
     
     func setupCollectionView() {
@@ -62,65 +65,44 @@ class AVPhotosCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.assets.count
+        return assets.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? AVPhotoCollectionViewCell else {
-            return UICollectionViewCell.init()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AVPhotoCollectionViewCell.reuseIdentifier, for: indexPath) as? AVPhotoCollectionViewCell else {
+            fatalError("Unable to dequeue AVPhotoCollectionViewCell")
         }
         
-        let manager: PHImageManager = PHImageManager.default()
-        
-        if cell.tag != 0 {
-            manager.cancelImageRequest(PHImageRequestID(cell.tag))
-        }
-        
-        let asset: PHAsset = assets[indexPath.row]
-        
-        if let createDate = asset.creationDate {
-            cell.lblCreateDate.text = createDate.dateToString()
-        }else {
-            cell.lblCreateDate.text = nil
-        }
-        
-        cell.lblPhotoTitle.text = asset.localIdentifier
-        
-        cell.tag = Int(manager.requestImage(for: asset,
-                                     targetSize: PHImageManagerMaximumSize,
-                                    contentMode: .aspectFill,
-                                        options: self.requestImageOptions,
-                                  resultHandler: {(result, _) in
-            cell.thumbnail.image = result
-        }))
+        let asset = assets[indexPath.row]
+        cell.update(title: asset.originalFilename, creationDate: asset.creationDate)
+        cell.photoView.fetchImageAsset(asset, targetSize: cell.bounds.size, completionHandler: nil)
         
         return cell
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let photoSlideViewController = segue.destination as? AVPhotoSlideViewController else {
+    @IBSegueAction func makeAVPhotoViewController(_ coder: NSCoder) -> AVPhotoViewController? {
+        guard let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first else {
+            return nil
+        }
+        
+        return AVPhotoViewController.init(assets: assets, index: selectedIndexPath.row, coder: coder)
+    }
+
+}
+
+extension AVPhotosCollectionViewController: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+      
+        guard let change = changeInstance.changeDetails(for: assets) else {
             return
         }
-        photoSlideViewController.assets = self.assets
-        photoSlideViewController.currentPhotoIndex = self.didSelectedIndex
-        photoSlideViewController.slideImages = Array.init(repeating: nil, count: self.assets.count)
-       
         
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.didSelectedIndex = indexPath.row
-        performSegue(withIdentifier: "showSlidePhoto", sender: self)
+        DispatchQueue.main.sync {
+            assets = change.fetchResultAfterChanges
+            collectionView.reloadData()
+        }
     }
 }
 
-extension Date {
-    func dateToString(dateFormat: String = "yyyy/MM/dd") -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.init(identifier: "zh_CN")
-        formatter.dateFormat = dateFormat
-        let dateStr = formatter.string(from: self)
-        return dateStr
-    }
-}
+

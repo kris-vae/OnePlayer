@@ -12,7 +12,7 @@ class AVLocaleTableViewController : UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView = UITableView.init(frame: self.view.frame, style: .insetGrouped)
+        tableView = UITableView.init(frame: view.frame, style: .insetGrouped)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

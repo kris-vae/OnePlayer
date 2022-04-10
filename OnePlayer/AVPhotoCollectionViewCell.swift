@@ -22,9 +22,9 @@ class AVPhotoCollectionViewCell: UICollectionViewCell {
         photoCreateDate.text = "Unknow"
     }
     
-    func update(title: String?, createDate: Date?) {
+    func update(title: String?, creationDate: Date?) {
         photoTitle.text = title ?? "Untitled"
-        photoCreateDate.text = createDate?.dateToString() ?? "Unknow"
+        photoCreateDate.text = creationDate?.dateToString() ?? "Unknow"
     }
 }
 

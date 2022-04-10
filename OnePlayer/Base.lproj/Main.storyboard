@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="00C-BE-82V">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -26,7 +27,7 @@
             <objects>
                 <collectionViewController id="aKU-fe-3gZ" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="gUa-Fs-fab">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Tp7-Bp-yCc">
@@ -153,15 +154,15 @@
             <objects>
                 <tableViewController id="uIA-3t-TkA" customClass="AVLocaleTableViewController" customModule="OnePlayer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="QCU-I8-XK1">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="VLr-QS-x3a">
-                                <rect key="frame" x="0.0" y="44.5" width="600" height="43.5"/>
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VLr-QS-x3a" id="IRp-ra-1Rd">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -180,12 +181,12 @@
             </objects>
             <point key="canvasLocation" x="1623" y="129"/>
         </scene>
-        <!--Alblum Collection View Controller-->
+        <!--Album Collection View Controller-->
         <scene sceneID="el6-0I-cmf">
             <objects>
-                <collectionViewController id="8uY-qz-tze" customClass="AVAlblumCollectionViewController" customModule="OnePlayer" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="8uY-qz-tze" customClass="AVAlbumCollectionViewController" customModule="OnePlayer" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="jab-NX-E7H">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="lDy-5r-MsK">
@@ -233,8 +234,9 @@
                                     </constraints>
                                 </collectionViewCellContentView>
                                 <connections>
-                                    <outlet property="lblAlbumTitle" destination="TnZ-bz-EQ2" id="fYr-wj-7Jl"/>
-                                    <outlet property="thumbnail" destination="T21-hj-Dm3" id="L1n-Em-ATd"/>
+                                    <outlet property="albumTitle" destination="TnZ-bz-EQ2" id="fYr-wj-7Jl"/>
+                                    <outlet property="photoView" destination="T21-hj-Dm3" id="L1n-Em-ATd"/>
+                                    <segue destination="eMQ-Xc-Xmu" kind="show" destinationCreationSelector="makeAVPhotosCollectionViewController:" id="G1H-69-N8A"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -244,20 +246,17 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="Nyl-HA-JIx"/>
-                    <connections>
-                        <segue destination="eMQ-Xc-Xmu" kind="show" identifier="showPhoto" id="MiN-xe-gmC"/>
-                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qRv-aQ-Sgh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2508.6956521739135" y="128.57142857142856"/>
         </scene>
-        <!--Photo Collection View Controller-->
+        <!--Photos Collection View Controller-->
         <scene sceneID="htf-wu-Xed">
             <objects>
-                <collectionViewController id="eMQ-Xc-Xmu" customClass="AVPhotoCollectionViewController" customModule="OnePlayer" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="eMQ-Xc-Xmu" customClass="AVPhotosCollectionViewController" customModule="OnePlayer" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="UoZ-NW-Gdo">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xUS-Eu-FjT">
@@ -315,9 +314,10 @@
                                     </constraints>
                                 </collectionViewCellContentView>
                                 <connections>
-                                    <outlet property="lblCreateDate" destination="7XJ-au-Lsc" id="Fjx-al-P6X"/>
-                                    <outlet property="lblPhotoTitle" destination="3PZ-wb-8h0" id="bub-M1-e3i"/>
-                                    <outlet property="thumbnail" destination="sYZ-2r-27q" id="90D-zn-WUz"/>
+                                    <outlet property="photoCreateDate" destination="7XJ-au-Lsc" id="Fjx-al-P6X"/>
+                                    <outlet property="photoTitle" destination="3PZ-wb-8h0" id="bub-M1-e3i"/>
+                                    <outlet property="photoView" destination="sYZ-2r-27q" id="90D-zn-WUz"/>
+                                    <segue destination="q4d-fU-mb1" kind="show" destinationCreationSelector="makeAVPhotoViewController:" id="RB7-qa-S6j"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -327,39 +327,36 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="GUI-sd-WI7"/>
-                    <connections>
-                        <segue destination="q4d-fU-mb1" kind="show" identifier="showSlidePhoto" id="grj-kD-aUo"/>
-                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l5J-mz-0r6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3414" y="129"/>
         </scene>
-        <!--Photo Slide View Controller-->
+        <!--Photo View Controller-->
         <scene sceneID="fn7-rc-kNz">
             <objects>
-                <viewController id="q4d-fU-mb1" customClass="AVPhotoSlideViewController" customModule="OnePlayer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="q4d-fU-mb1" customClass="AVPhotoViewController" customModule="OnePlayer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gmp-EB-bXy">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="d4e-sO-ZrX">
-                                <rect key="frame" x="15" y="91" width="570" height="460"/>
+                                <rect key="frame" x="15" y="353" width="384" height="460"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="TZe-K4-Fbg">
-                                        <rect key="frame" x="0.0" y="0.0" width="570" height="390"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="384" height="390"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="slideSecond" rowHeight="40" id="A82-Ay-w4J" customClass="AVSlidePhotoTimeTableViewCell" customModule="OnePlayer" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="44.5" width="570" height="40"/>
+                                                <rect key="frame" x="0.0" y="44.5" width="384" height="40"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="A82-Ay-w4J" id="fnb-Ff-Pde">
-                                                    <rect key="frame" x="0.0" y="0.0" width="570" height="40"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="384" height="40"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n17-M1-pAp">
-                                                            <rect key="frame" x="264.5" y="10" width="41.5" height="20.5"/>
+                                                            <rect key="frame" x="171.5" y="10" width="41.5" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -381,14 +378,14 @@
                                         </connections>
                                     </tableView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HUZ-XH-b4h">
-                                        <rect key="frame" x="0.0" y="390" width="570" height="20"/>
+                                        <rect key="frame" x="0.0" y="390" width="384" height="20"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="6Zz-ft-dtv"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="07A-bD-INT">
-                                        <rect key="frame" x="0.0" y="410" width="570" height="50"/>
+                                        <rect key="frame" x="0.0" y="410" width="384" height="50"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="qOH-D7-akx"/>
