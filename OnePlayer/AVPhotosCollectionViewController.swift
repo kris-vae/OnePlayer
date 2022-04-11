@@ -10,23 +10,10 @@ import UIKit
 import Photos
 
 class AVPhotosCollectionViewController: UICollectionViewController {
-    
-    let cacheImageManager: PHCachingImageManager = PHCachingImageManager.init()
-    
-    var requestImageOptions: PHImageRequestOptions {
-        get {
-            let result: PHImageRequestOptions = PHImageRequestOptions.init()
-            result.deliveryMode = .highQualityFormat
-            return result
-        }
-    }
-    
-    var assets: PHFetchResult<PHAsset>!
-    
-    var didSelectedIndex: Int!
+    var assets: PHFetchResult<PHAsset>
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("init(coder:) not implemented.")
     }
     
     init?(assets: PHFetchResult<PHAsset>, title: String, coder: NSCoder) {
@@ -39,13 +26,12 @@ class AVPhotosCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         PHPhotoLibrary.shared().register(self)
         setupCollectionView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         setupNavigationItem()
     }
     
+    deinit {
+      PHPhotoLibrary.shared().unregisterChangeObserver(self)
+    }
     
     func setupNavigationItem() {
         navigationItem.title = title
@@ -85,7 +71,6 @@ class AVPhotosCollectionViewController: UICollectionViewController {
         guard let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first else {
             return nil
         }
-        
         return AVPhotoViewController.init(assets: assets, index: selectedIndexPath.row, coder: coder)
     }
 

@@ -16,6 +16,7 @@
 			dependencies = (
 			);
 			name = MobileVLCKit;
+			productName = MobileVLCKit;
 		};
 /* End PBXAggregateTarget section */
 
@@ -36,7 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		013AA345DA189F58622A7BF9349358DA /* MobileVLCKit.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = MobileVLCKit.xcframework; sourceTree = "<group>"; };
+		013AA345DA189F58622A7BF9349358DA /* MobileVLCKit.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = MobileVLCKit.xcframework; sourceTree = "<group>"; };
 		2899200282661C17014FDBC8BCE1BE5F /* Pods-OnePlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OnePlayer.release.xcconfig"; sourceTree = "<group>"; };
 		2B43D3CE720EE769F47EFD5C7A596C7A /* MobileVLCKit-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "MobileVLCKit-xcframeworks.sh"; sourceTree = "<group>"; };
 		327B6407A040626B0AA88711BFE0AEC5 /* Pods-OnePlayer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OnePlayer-dummy.m"; sourceTree = "<group>"; };
@@ -45,7 +46,7 @@
 		88500CFA249A2777EDF3886027FB9D9B /* Pods-OnePlayer-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OnePlayer-umbrella.h"; sourceTree = "<group>"; };
 		8A9ED0CA96EA94515416A30CE2F3A01D /* MobileVLCKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MobileVLCKit.release.xcconfig; sourceTree = "<group>"; };
 		9B8E15D971D858EC5328B8EDE6875ABF /* MobileVLCKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MobileVLCKit.debug.xcconfig; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A0734E8DD2A464439D4022980A082052 /* Pods-OnePlayer-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OnePlayer-acknowledgements.plist"; sourceTree = "<group>"; };
 		A1C7B80B1EA33EBE9AB4EB382FE2ED56 /* Pods-OnePlayer */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-OnePlayer"; path = Pods_OnePlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A558FEEBC63EEF223F81081868A0BAEB /* Pods-OnePlayer-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-OnePlayer-frameworks.sh"; sourceTree = "<group>"; };
@@ -99,7 +100,6 @@
 				7D0317FB6022675A95E6D12D97F9BA10 /* Frameworks */,
 				2AA422D46B93AC2C4375721D41F861C5 /* Support Files */,
 			);
-			name = MobileVLCKit;
 			path = MobileVLCKit;
 			sourceTree = "<group>";
 		};
@@ -446,7 +446,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -501,7 +501,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
