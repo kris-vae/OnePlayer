@@ -45,7 +45,7 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
             var result: Array<String> = []
             
             for asset in assetArr {
-                result.append(asset.localIdentifier)
+                result.append(asset.originalFilename!)
             }
             
             return result
