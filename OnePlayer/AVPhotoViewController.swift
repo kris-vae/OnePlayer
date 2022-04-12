@@ -66,12 +66,7 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
     
     var scrollPhotoContainView: AVScrollPhotoView!
     
-    @IBOutlet var slideTimeChooseContainView: UIView!
-    
     let slideSeconds: Array<Int> = [2, 5, 10, 15, 20, 25, 30, 45, 60]
-    let leadingConstraint: CGFloat = 15
-    let trailingConstraint: CGFloat = -15
-    let containViewHeight: CGFloat = 460
     
     var slideTimer: Timer!
     var isSliding: Bool = false
@@ -98,6 +93,10 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
         addNotification()
     }
     
+    deinit{
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     func setupUI() {
         tabBarController?.tabBar.isHidden = true
         navigationItem.title = String.init(format: "%@(%@/%@)", assetArr[currentPhotoIndex].originalFilename!, String(Int(currentPhotoIndex)+1), String(photoTotalNumber))
@@ -120,16 +119,16 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
     }
     
     func addNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(currentIndexIncrease), name: .leftSlide, object: scrollPhotoContainView)
-        NotificationCenter.default.addObserver(self, selector: #selector(currentIndexDecrease), name: .rightSlide, object: scrollPhotoContainView)
+        NotificationCenter.default.addObserver(self, selector: #selector(currentPhotoIndexIncrease), name: .leftSlide, object: scrollPhotoContainView)
+        NotificationCenter.default.addObserver(self, selector: #selector(currentPhotoIndexDecrease), name: .rightSlide, object: scrollPhotoContainView)
         NotificationCenter.default.addObserver(self, selector: #selector(updateScrollContainView), name: .updatePhoto, object: scrollPhotoContainView)
     }
     
-    @objc func currentIndexIncrease() {
+    @objc func currentPhotoIndexIncrease() {
         currentPhotoIndex = currentPhotoIndex + 1 == photoTotalNumber ? 0 : currentPhotoIndex + 1
     }
     
-    @objc func currentIndexDecrease() {
+    @objc func currentPhotoIndexDecrease() {
         currentPhotoIndex = currentPhotoIndex - 1 < 0 ? photoTotalNumber-1 : currentPhotoIndex - 1
     }
     
@@ -171,13 +170,6 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
     
     @IBAction func dismissClicked() {
         navigationController?.popViewController(animated: true)
-    }
-
-    func setupSlideTimeChooseContainView() {
-        slideTimeChooseContainView.translatesAutoresizingMaskIntoConstraints = false
-        slideTimeChooseContainView.frame.origin = CGPoint.init(x: 0, y: scrollViewHeight)
-        slideTimeChooseContainView.layer.cornerRadius = 10
-        slideTimeChooseContainView.layer.borderWidth = 1
     }
     
     //判断手势范围，UITableView不响应添加到self.view的手势操作
