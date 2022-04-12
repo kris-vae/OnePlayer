@@ -69,8 +69,8 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
     @IBOutlet var slideTimeChooseContainView: UIView!
     
     let leadingConstraint: CGFloat = 15
-    let trailingConstraint: CGFloat = 15
-    let containViewHeight: CGFloat = 430
+    let trailingConstraint: CGFloat = -15
+    let containViewHeight: CGFloat = 460
     
     var slideTimer: Timer!
     var isSliding: Bool = false
@@ -125,7 +125,7 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
         NotificationCenter.default.addObserver(self, selector: #selector(updateScrollContainView), name: .updatePhoto, object: scrollPhotoContainView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(dismissSlideContainView), name: .chooseSlideTimeCancel, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(startSlide), name: .slideTimeDidChoose, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(startSlide(noti:)), name: .slideTimeDidChoose, object: nil)
     }
     
     @objc func currentIndexIncrease() {
@@ -177,7 +177,7 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
             guard let isHidden = navigationController?.navigationBar.isHidden else {
                 return
             }
-            if slideTimeChooseContainView != nil {
+            if slideTimeChooseContainView.superview == view {
                 dismissSlideContainView()
                 navigationController?.navigationBar.isHidden = false
             }else {
@@ -192,7 +192,7 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
     
     @IBAction func slideClicked() {
         view.addSubview(slideTimeChooseContainView)
-        setupSlideTimeContainView()
+        setupSlideTimeChooseContainView()
         
         UIView.animate(withDuration: 0.3, animations: {
             self.slideTimeChooseContainView.frame.origin = CGPoint.init(x: 0, y: self.scrollViewHeight-self.containViewHeight)
@@ -201,7 +201,7 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
         addConstraintsForSlideTimeChooseContainView()
     }
     
-    func setupSlideTimeContainView() {
+    func setupSlideTimeChooseContainView() {
         slideTimeChooseContainView.translatesAutoresizingMaskIntoConstraints = false
         slideTimeChooseContainView.frame.origin = CGPoint.init(x: 0, y: scrollViewHeight)
         slideTimeChooseContainView.layer.cornerRadius = 10
@@ -209,10 +209,11 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
     }
     
     func addConstraintsForSlideTimeChooseContainView() {
+        
         let leadingConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: slideTimeChooseContainView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: leadingConstraint)
-        let trailingConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: slideTimeChooseContainView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: -trailingConstraint)
+        let trailingConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: slideTimeChooseContainView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: trailingConstraint)
         let bottomConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: slideTimeChooseContainView, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
-        let heightConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: slideTimeChooseContainView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 460)
+        let heightConstraint: NSLayoutConstraint = NSLayoutConstraint.init(item: slideTimeChooseContainView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containViewHeight)
         
         view.addConstraints([leadingConstraint, trailingConstraint, bottomConstraint])
     }
@@ -244,20 +245,33 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
             })
     }
     
-    @objc func startSlide() {
+    @objc func startSlide(noti: Notification) {
         dismissSlideContainView()
-        slideStartWith(2)
+        guard let userInfo = noti.userInfo, let timeInterval = userInfo["seconds"] as? Int else {
+            fatalError("slide seconds is nil")
+        }
+        slideStartWith(Double(timeInterval))
     }
     
     func slideStartWith(_ timeInterval: TimeInterval) {
         isSliding = true
         self.scrollPhotoContainView.scrollView.canCancelContentTouches = false
         self.scrollPhotoContainView.scrollView.delaysContentTouches = true
-        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.isHidden = true
         slideTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(leftSlide), userInfo: nil, repeats: true)
     }
     
+    func removeConstraintsForContainView() {
+        self.view.constraints.map({
+            if let view = $0.firstItem as? UIView, view == self.slideTimeChooseContainView {
+                self.view.removeConstraint($0)
+            }
+        })
+    }
+    
     @objc func dismissSlideContainView() {
+        removeConstraintsForContainView()
+        
         slideTimeChooseContainView.translatesAutoresizingMaskIntoConstraints = false
         slideTimeChooseContainView.frame = CGRect.init(x: leadingConstraint, y: scrollViewHeight - containViewHeight, width: scrollViewWidth-leadingConstraint*2, height: containViewHeight)
         

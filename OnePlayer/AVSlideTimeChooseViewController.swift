@@ -9,12 +9,9 @@ import Foundation
 import UIKit
 
 class AVSlideTimeChooseViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
-    
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnCancel: UIButton!
-    
-    var didSelectedSlideTime: Int!
     
     let slideSeconds: Array<Int> = [2, 5, 10, 15, 20, 25, 30, 45, 60]
     override func viewDidLoad() {
@@ -48,12 +45,11 @@ class AVSlideTimeChooseViewController: UIViewController, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return 43.5
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        didSelectedSlideTime = slideSeconds[indexPath.row]
-        NotificationCenter.default.post(name: .slideTimeDidChoose, object: nil)
+        NotificationCenter.default.post(name: .slideTimeDidChoose, object: self, userInfo: ["seconds": slideSeconds[indexPath.row]])
     }
     
     @IBAction func btnCancelClicked() {
