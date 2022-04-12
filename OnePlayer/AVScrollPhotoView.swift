@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Photos
 
 class AVScrollPhotoView : UIView, UIScrollViewDelegate {
     var scrollView: UIScrollView = UIScrollView.init()
@@ -22,6 +23,7 @@ class AVScrollPhotoView : UIView, UIScrollViewDelegate {
     
     init(photoNumber: Int) {
         self.photoNumber = photoNumber
+        
         super.init(frame: CGRect.init(x: 0, y: 0, width: scrollViewWidth, height: scrollViewHeight))
         
         self.scrollView = initializeScrollView()

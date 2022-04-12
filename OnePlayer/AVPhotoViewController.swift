@@ -107,9 +107,9 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
     
     func setupScrollContainView() {
         if photoTotalNumber == 1 {
-            setImageFor(imageView: scrollPhotoContainView.leftImgView, atAssetIndex: currentPhotoIndex)
+            updateImageFor(imageView: scrollPhotoContainView.leftImgView, withAssetIndex: currentPhotoIndex)
         }else {
-            setImageFor(imageView: scrollPhotoContainView.middleImgView, atAssetIndex: currentPhotoIndex)
+            updateImageFor(imageView: scrollPhotoContainView.middleImgView, withAssetIndex: currentPhotoIndex)
         }
     }
     
@@ -134,22 +134,16 @@ class AVPhotoViewController: UIViewController, UIScrollViewDelegate, UIGestureRe
     }
     
     @objc func updateScrollContainView() {
-        if currentPhotoIndex == 0 {
-            setImageFor(imageView: scrollPhotoContainView.leftImgView, atAssetIndex: photoTotalNumber-1)
-            setImageFor(imageView: scrollPhotoContainView.middleImgView, atAssetIndex: currentPhotoIndex)
-            setImageFor(imageView: scrollPhotoContainView.rightImgView, atAssetIndex: currentPhotoIndex+1)
-        }else if currentPhotoIndex == photoTotalNumber - 1 {
-            setImageFor(imageView: scrollPhotoContainView.leftImgView, atAssetIndex: currentPhotoIndex-1)
-            setImageFor(imageView: scrollPhotoContainView.middleImgView, atAssetIndex: currentPhotoIndex)
-            setImageFor(imageView: scrollPhotoContainView.rightImgView, atAssetIndex: 0)
-        }else {
-            setImageFor(imageView: scrollPhotoContainView.leftImgView, atAssetIndex: currentPhotoIndex-1)
-            setImageFor(imageView: scrollPhotoContainView.middleImgView, atAssetIndex: currentPhotoIndex)
-            setImageFor(imageView: scrollPhotoContainView.rightImgView, atAssetIndex: currentPhotoIndex+1)
-        }
+        let leftPhotoIndex = currentPhotoIndex == 0 ? photoTotalNumber-1 : currentPhotoIndex-1
+        let middlePhotoIndex = currentPhotoIndex
+        let rightPhotoIndex = currentPhotoIndex == photoTotalNumber-1 ? 0 : currentPhotoIndex+1
+        
+        updateImageFor(imageView: scrollPhotoContainView.leftImgView, withAssetIndex: leftPhotoIndex)
+        updateImageFor(imageView: scrollPhotoContainView.middleImgView, withAssetIndex: middlePhotoIndex!)
+        updateImageFor(imageView: scrollPhotoContainView.rightImgView, withAssetIndex: rightPhotoIndex)
     }
     
-    func setImageFor(imageView: UIImageView, atAssetIndex index: Int) {
+    func updateImageFor(imageView: UIImageView, withAssetIndex index: Int) {
         if let image = photos[index] {
             imageView.image = image
             return
