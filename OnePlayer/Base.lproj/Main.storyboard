@@ -72,17 +72,23 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Jm-pp-HQc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-275" y="911"/>
+            <point key="canvasLocation" x="-336" y="919"/>
         </scene>
-        <!--Root View Controller-->
-        <scene sceneID="SJa-Ml-4CC">
+        <!--Media Player View Controller-->
+        <scene sceneID="1L9-lm-Nfz">
             <objects>
-                <tableViewController id="WuA-mO-Msr" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Root View Controller" id="LdO-2y-zFF"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tEz-LY-Er0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController id="EcZ-xx-OhV" customClass="AVMediaPlayerViewController" customModule="OnePlayer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iNR-8t-Pju">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Qe5-Ee-o5D"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ka6-3E-gz4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2QJ-Qw-rlT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1342" y="-605"/>
+            <point key="canvasLocation" x="1539.1304347826087" y="-573.21428571428567"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="8eh-Sd-R21">
@@ -111,23 +117,6 @@
             </objects>
             <point key="canvasLocation" x="-1141" y="-587"/>
         </scene>
-        <!--播放列表-->
-        <scene sceneID="JZh-AP-oU7">
-            <objects>
-                <navigationController id="ePf-kn-oU4" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="播放列表" id="bay-q5-wtg"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mZa-va-43Q">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="WuA-mO-Msr" kind="relationship" relationship="rootViewController" id="XjX-0I-foZ"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zWe-qS-CcK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="522" y="-605"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="QSO-3K-lAb">
             <objects>
@@ -140,14 +129,14 @@
                     </tabBar>
                     <connections>
                         <segue destination="jfz-E1-vow" kind="relationship" relationship="viewControllers" id="0CB-bK-K5J"/>
-                        <segue destination="ePf-kn-oU4" kind="relationship" relationship="viewControllers" id="W97-uB-8b7"/>
                         <segue destination="l7l-Dj-L8h" kind="relationship" relationship="viewControllers" id="xeP-yl-03T"/>
                         <segue destination="ZCx-Zl-c2X" kind="relationship" relationship="viewControllers" id="750-sS-Xhu"/>
+                        <segue destination="gn9-JN-lZ6" kind="relationship" relationship="viewControllers" id="aG9-GC-AjJ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ejf-We-Nct" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-275" y="129"/>
+            <point key="canvasLocation" x="-336" y="124"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="X6S-lc-Vhk">
@@ -382,6 +371,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wt2-9w-Vaa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="733" y="129"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="Dst-Ma-Eh8">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gn9-JN-lZ6" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="uv7-4Y-acR"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Qmb-b3-r6L">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="EcZ-xx-OhV" kind="relationship" relationship="rootViewController" id="HRa-to-fXa"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ekc-u6-4t7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="628.98550724637687" y="-573.21428571428567"/>
         </scene>
     </scenes>
     <resources>

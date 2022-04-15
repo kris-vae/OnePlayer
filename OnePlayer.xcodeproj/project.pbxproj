@@ -22,6 +22,7 @@
 		017F1A2C27FAE8A60059EFE4 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 017F1A2B27FAE8A60059EFE4 /* Media.xcassets */; };
 		017F1A2E27FB1F150059EFE4 /* AVLocaleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F1A2D27FB1F150059EFE4 /* AVLocaleTableViewController.swift */; };
 		017F1A3027FB24050059EFE4 /* AVAlbumCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F1A2F27FB24050059EFE4 /* AVAlbumCollectionViewController.swift */; };
+		01A06DA12809183600C58B1E /* AVMedioPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A06DA02809183600C58B1E /* AVMedioPlayerViewController.swift */; };
 		01B85C442804018A000574A0 /* AVScrollPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B85C432804018A000574A0 /* AVScrollPhotoView.swift */; };
 		01C3F9922802ADA000C7C00E /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C3F9912802ADA000C7C00E /* UIImageView+Extension.swift */; };
 		01DA47A427FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */; };
@@ -68,6 +69,7 @@
 		017F1A2B27FAE8A60059EFE4 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		017F1A2D27FB1F150059EFE4 /* AVLocaleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVLocaleTableViewController.swift; sourceTree = "<group>"; };
 		017F1A2F27FB24050059EFE4 /* AVAlbumCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAlbumCollectionViewController.swift; sourceTree = "<group>"; };
+		01A06DA02809183600C58B1E /* AVMedioPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVMedioPlayerViewController.swift; sourceTree = "<group>"; };
 		01B85C432804018A000574A0 /* AVScrollPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVScrollPhotoView.swift; sourceTree = "<group>"; };
 		01C3F9912802ADA000C7C00E /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				017DCB8327FD8DAD00166018 /* AVPhotoViewController.swift */,
 				01B85C432804018A000574A0 /* AVScrollPhotoView.swift */,
 				017F1A2B27FAE8A60059EFE4 /* Media.xcassets */,
+				01A06DA02809183600C58B1E /* AVMedioPlayerViewController.swift */,
 			);
 			path = OnePlayer;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				01DA47A627FC67D100F7841E /* AVPhotosCollectionViewController.swift in Sources */,
 				015AF18F27FAE05B00FB220A /* AppDelegate.swift in Sources */,
 				015AF19127FAE05B00FB220A /* SceneDelegate.swift in Sources */,
+				01A06DA12809183600C58B1E /* AVMedioPlayerViewController.swift in Sources */,
 				01DA47A827FC6A6700F7841E /* AVPhotoCollectionViewCell.swift in Sources */,
 				017F1A2A27FAE4580059EFE4 /* AVTabBarViewController.swift in Sources */,
 			);
