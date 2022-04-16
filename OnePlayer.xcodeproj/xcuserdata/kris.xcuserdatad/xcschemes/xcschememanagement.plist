@@ -4,10 +4,33 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>OnePlayer copy.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>OnePlayer.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>015AF18A27FAE05B00FB220A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>015AF1A327FAE05B00FB220A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>015AF1AD27FAE05B00FB220A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010FCB6A28096CF50060741C /* BGTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010FCB6928096CF50060741C /* BGTaskManager.swift */; };
 		013CC60C2801938400FD4F97 /* MobileVLCKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013CC60B2801938400FD4F97 /* MobileVLCKit.xcframework */; };
 		015AF18F27FAE05B00FB220A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF18E27FAE05B00FB220A /* AppDelegate.swift */; };
 		015AF19127FAE05B00FB220A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF19027FAE05B00FB220A /* SceneDelegate.swift */; };
@@ -22,7 +23,6 @@
 		017F1A2C27FAE8A60059EFE4 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 017F1A2B27FAE8A60059EFE4 /* Media.xcassets */; };
 		017F1A2E27FB1F150059EFE4 /* AVLocaleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F1A2D27FB1F150059EFE4 /* AVLocaleTableViewController.swift */; };
 		017F1A3027FB24050059EFE4 /* AVAlbumCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F1A2F27FB24050059EFE4 /* AVAlbumCollectionViewController.swift */; };
-		01A06DA12809183600C58B1E /* AVMedioPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A06DA02809183600C58B1E /* AVMedioPlayerViewController.swift */; };
 		01B85C442804018A000574A0 /* AVScrollPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B85C432804018A000574A0 /* AVScrollPhotoView.swift */; };
 		01C3F9922802ADA000C7C00E /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C3F9912802ADA000C7C00E /* UIImageView+Extension.swift */; };
 		01DA47A427FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */; };
@@ -49,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		010FCB6928096CF50060741C /* BGTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGTaskManager.swift; sourceTree = "<group>"; };
+		010FCB8928096E080060741C /* OnePlayer copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "OnePlayer copy-Info.plist"; path = "/Users/kris/Documents/Project/OnePlayer/OnePlayer copy-Info.plist"; sourceTree = "<absolute>"; };
 		013CC60A2801916C00FD4F97 /* OnePlayer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OnePlayer-Bridging-Header.h"; sourceTree = "<group>"; };
 		013CC60B2801938400FD4F97 /* MobileVLCKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MobileVLCKit.xcframework; path = Pods/MobileVLCKit/MobileVLCKit.xcframework; sourceTree = "<group>"; };
 		015AF18B27FAE05B00FB220A /* OnePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,7 +71,6 @@
 		017F1A2B27FAE8A60059EFE4 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		017F1A2D27FB1F150059EFE4 /* AVLocaleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVLocaleTableViewController.swift; sourceTree = "<group>"; };
 		017F1A2F27FB24050059EFE4 /* AVAlbumCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAlbumCollectionViewController.swift; sourceTree = "<group>"; };
-		01A06DA02809183600C58B1E /* AVMedioPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVMedioPlayerViewController.swift; sourceTree = "<group>"; };
 		01B85C432804018A000574A0 /* AVScrollPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVScrollPhotoView.swift; sourceTree = "<group>"; };
 		01C3F9912802ADA000C7C00E /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 				015AF18C27FAE05B00FB220A /* Products */,
 				DDD2E526CC604A1644841CE7 /* Pods */,
 				002CCDDB9FFD5D9071F7002C /* Frameworks */,
+				010FCB8928096E080060741C /* OnePlayer copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -159,7 +161,7 @@
 				017DCB8327FD8DAD00166018 /* AVPhotoViewController.swift */,
 				01B85C432804018A000574A0 /* AVScrollPhotoView.swift */,
 				017F1A2B27FAE8A60059EFE4 /* Media.xcassets */,
-				01A06DA02809183600C58B1E /* AVMedioPlayerViewController.swift */,
+				010FCB6928096CF50060741C /* BGTaskManager.swift */,
 			);
 			path = OnePlayer;
 			sourceTree = "<group>";
@@ -369,6 +371,7 @@
 				017DCB8427FD8DAD00166018 /* AVPhotoViewController.swift in Sources */,
 				01DA47A427FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift in Sources */,
 				01C3F9922802ADA000C7C00E /* UIImageView+Extension.swift in Sources */,
+				010FCB6A28096CF50060741C /* BGTaskManager.swift in Sources */,
 				015AF19927FAE05B00FB220A /* OnePlayer.xcdatamodeld in Sources */,
 				017F1A2E27FB1F150059EFE4 /* AVLocaleTableViewController.swift in Sources */,
 				01B85C442804018A000574A0 /* AVScrollPhotoView.swift in Sources */,
@@ -376,7 +379,6 @@
 				01DA47A627FC67D100F7841E /* AVPhotosCollectionViewController.swift in Sources */,
 				015AF18F27FAE05B00FB220A /* AppDelegate.swift in Sources */,
 				015AF19127FAE05B00FB220A /* SceneDelegate.swift in Sources */,
-				01A06DA12809183600C58B1E /* AVMedioPlayerViewController.swift in Sources */,
 				01DA47A827FC6A6700F7841E /* AVPhotoCollectionViewCell.swift in Sources */,
 				017F1A2A27FAE4580059EFE4 /* AVTabBarViewController.swift in Sources */,
 			);
@@ -561,6 +563,7 @@
 				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnePlayer/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -594,6 +597,7 @@
 				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnePlayer/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
