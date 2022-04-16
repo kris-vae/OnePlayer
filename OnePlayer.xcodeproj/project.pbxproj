@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		010FCB6A28096CF50060741C /* BGTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010FCB6928096CF50060741C /* BGTaskManager.swift */; };
 		013CC60C2801938400FD4F97 /* MobileVLCKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013CC60B2801938400FD4F97 /* MobileVLCKit.xcframework */; };
 		015AF18F27FAE05B00FB220A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF18E27FAE05B00FB220A /* AppDelegate.swift */; };
 		015AF19127FAE05B00FB220A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF19027FAE05B00FB220A /* SceneDelegate.swift */; };
@@ -49,7 +48,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		010FCB6928096CF50060741C /* BGTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGTaskManager.swift; sourceTree = "<group>"; };
 		010FCB8928096E080060741C /* OnePlayer copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "OnePlayer copy-Info.plist"; path = "/Users/kris/Documents/Project/OnePlayer/OnePlayer copy-Info.plist"; sourceTree = "<absolute>"; };
 		013CC60A2801916C00FD4F97 /* OnePlayer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OnePlayer-Bridging-Header.h"; sourceTree = "<group>"; };
 		013CC60B2801938400FD4F97 /* MobileVLCKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MobileVLCKit.xcframework; path = Pods/MobileVLCKit/MobileVLCKit.xcframework; sourceTree = "<group>"; };
@@ -161,7 +159,6 @@
 				017DCB8327FD8DAD00166018 /* AVPhotoViewController.swift */,
 				01B85C432804018A000574A0 /* AVScrollPhotoView.swift */,
 				017F1A2B27FAE8A60059EFE4 /* Media.xcassets */,
-				010FCB6928096CF50060741C /* BGTaskManager.swift */,
 			);
 			path = OnePlayer;
 			sourceTree = "<group>";
@@ -371,7 +368,6 @@
 				017DCB8427FD8DAD00166018 /* AVPhotoViewController.swift in Sources */,
 				01DA47A427FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift in Sources */,
 				01C3F9922802ADA000C7C00E /* UIImageView+Extension.swift in Sources */,
-				010FCB6A28096CF50060741C /* BGTaskManager.swift in Sources */,
 				015AF19927FAE05B00FB220A /* OnePlayer.xcdatamodeld in Sources */,
 				017F1A2E27FB1F150059EFE4 /* AVLocaleTableViewController.swift in Sources */,
 				01B85C442804018A000574A0 /* AVScrollPhotoView.swift in Sources */,
