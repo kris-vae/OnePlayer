@@ -24,10 +24,11 @@
 		017F1A3027FB24050059EFE4 /* AVAlbumCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017F1A2F27FB24050059EFE4 /* AVAlbumCollectionViewController.swift */; };
 		01B85C442804018A000574A0 /* AVScrollPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B85C432804018A000574A0 /* AVScrollPhotoView.swift */; };
 		01C3F9922802ADA000C7C00E /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C3F9912802ADA000C7C00E /* UIImageView+Extension.swift */; };
+		01CD5DC1280BDBDC007E43F9 /* AVMediaPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CD5DC0280BDBDC007E43F9 /* AVMediaPlayerViewController.swift */; };
 		01DA47A427FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */; };
 		01DA47A627FC67D100F7841E /* AVPhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DA47A527FC67D100F7841E /* AVPhotosCollectionViewController.swift */; };
 		01DA47A827FC6A6700F7841E /* AVPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DA47A727FC6A6700F7841E /* AVPhotoCollectionViewCell.swift */; };
-		BB1E3C870E8136C2263CB5CA /* Pods_OnePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2D53649E3ABAA0379E2AD9 /* Pods_OnePlayer.framework */; };
+		D0FAF310B4858A6632AD07D4 /* Pods_OnePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05843C5FFB7157EC1F6E5E89 /* Pods_OnePlayer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,12 +72,13 @@
 		017F1A2F27FB24050059EFE4 /* AVAlbumCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAlbumCollectionViewController.swift; sourceTree = "<group>"; };
 		01B85C432804018A000574A0 /* AVScrollPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVScrollPhotoView.swift; sourceTree = "<group>"; };
 		01C3F9912802ADA000C7C00E /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		01CD5DC0280BDBDC007E43F9 /* AVMediaPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVMediaPlayerViewController.swift; sourceTree = "<group>"; };
 		01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		01DA47A527FC67D100F7841E /* AVPhotosCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPhotosCollectionViewController.swift; sourceTree = "<group>"; };
 		01DA47A727FC6A6700F7841E /* AVPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
-		3728A60C759E6DAB67C658B1 /* Pods-OnePlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnePlayer.release.xcconfig"; path = "Target Support Files/Pods-OnePlayer/Pods-OnePlayer.release.xcconfig"; sourceTree = "<group>"; };
-		F2314D027B9E28F8EF227A17 /* Pods-OnePlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnePlayer.debug.xcconfig"; path = "Target Support Files/Pods-OnePlayer/Pods-OnePlayer.debug.xcconfig"; sourceTree = "<group>"; };
-		FE2D53649E3ABAA0379E2AD9 /* Pods_OnePlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnePlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		05843C5FFB7157EC1F6E5E89 /* Pods_OnePlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnePlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CE9A01BC079E52C4A4C30A1 /* Pods-OnePlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnePlayer.release.xcconfig"; path = "Target Support Files/Pods-OnePlayer/Pods-OnePlayer.release.xcconfig"; sourceTree = "<group>"; };
+		5FA78E72EB1B479E072DB325 /* Pods-OnePlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnePlayer.debug.xcconfig"; path = "Target Support Files/Pods-OnePlayer/Pods-OnePlayer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +87,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				013CC60C2801938400FD4F97 /* MobileVLCKit.xcframework in Frameworks */,
-				BB1E3C870E8136C2263CB5CA /* Pods_OnePlayer.framework in Frameworks */,
+				D0FAF310B4858A6632AD07D4 /* Pods_OnePlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				013CC60B2801938400FD4F97 /* MobileVLCKit.xcframework */,
-				FE2D53649E3ABAA0379E2AD9 /* Pods_OnePlayer.framework */,
+				05843C5FFB7157EC1F6E5E89 /* Pods_OnePlayer.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -141,24 +143,19 @@
 		015AF18D27FAE05B00FB220A /* OnePlayer */ = {
 			isa = PBXGroup;
 			children = (
+				01CD5DC4280BDCB9007E43F9 /* SupportFiles */,
+				01CD5DC3280BDC76007E43F9 /* AVAlbum */,
+				01CD5DBD280BDB98007E43F9 /* AVMediaPlayer */,
 				013CC60A2801916C00FD4F97 /* OnePlayer-Bridging-Header.h */,
 				015AF18E27FAE05B00FB220A /* AppDelegate.swift */,
 				015AF19027FAE05B00FB220A /* SceneDelegate.swift */,
+				017F1A2927FAE4580059EFE4 /* AVTabBarViewController.swift */,
 				015AF19427FAE05B00FB220A /* Main.storyboard */,
-				015AF19A27FAE05B00FB220A /* Assets.xcassets */,
 				015AF19C27FAE05B00FB220A /* LaunchScreen.storyboard */,
 				015AF19F27FAE05B00FB220A /* Info.plist */,
-				015AF19727FAE05B00FB220A /* OnePlayer.xcdatamodeld */,
-				017F1A2927FAE4580059EFE4 /* AVTabBarViewController.swift */,
-				017F1A2D27FB1F150059EFE4 /* AVLocaleTableViewController.swift */,
-				017F1A2F27FB24050059EFE4 /* AVAlbumCollectionViewController.swift */,
-				01C3F9912802ADA000C7C00E /* UIImageView+Extension.swift */,
-				01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */,
-				01DA47A527FC67D100F7841E /* AVPhotosCollectionViewController.swift */,
-				01DA47A727FC6A6700F7841E /* AVPhotoCollectionViewCell.swift */,
-				017DCB8327FD8DAD00166018 /* AVPhotoViewController.swift */,
-				01B85C432804018A000574A0 /* AVScrollPhotoView.swift */,
+				015AF19A27FAE05B00FB220A /* Assets.xcassets */,
 				017F1A2B27FAE8A60059EFE4 /* Media.xcassets */,
+				015AF19727FAE05B00FB220A /* OnePlayer.xcdatamodeld */,
 			);
 			path = OnePlayer;
 			sourceTree = "<group>";
@@ -180,11 +177,41 @@
 			path = OnePlayerUITests;
 			sourceTree = "<group>";
 		};
+		01CD5DBD280BDB98007E43F9 /* AVMediaPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				01CD5DC0280BDBDC007E43F9 /* AVMediaPlayerViewController.swift */,
+			);
+			path = AVMediaPlayer;
+			sourceTree = "<group>";
+		};
+		01CD5DC3280BDC76007E43F9 /* AVAlbum */ = {
+			isa = PBXGroup;
+			children = (
+				017F1A2D27FB1F150059EFE4 /* AVLocaleTableViewController.swift */,
+				017F1A2F27FB24050059EFE4 /* AVAlbumCollectionViewController.swift */,
+				01DA47A327FC3C1A00F7841E /* AVAlbumCollectionViewCell.swift */,
+				01DA47A527FC67D100F7841E /* AVPhotosCollectionViewController.swift */,
+				01DA47A727FC6A6700F7841E /* AVPhotoCollectionViewCell.swift */,
+				017DCB8327FD8DAD00166018 /* AVPhotoViewController.swift */,
+				01B85C432804018A000574A0 /* AVScrollPhotoView.swift */,
+			);
+			path = AVAlbum;
+			sourceTree = "<group>";
+		};
+		01CD5DC4280BDCB9007E43F9 /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				01C3F9912802ADA000C7C00E /* UIImageView+Extension.swift */,
+			);
+			path = SupportFiles;
+			sourceTree = "<group>";
+		};
 		DDD2E526CC604A1644841CE7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F2314D027B9E28F8EF227A17 /* Pods-OnePlayer.debug.xcconfig */,
-				3728A60C759E6DAB67C658B1 /* Pods-OnePlayer.release.xcconfig */,
+				5FA78E72EB1B479E072DB325 /* Pods-OnePlayer.debug.xcconfig */,
+				2CE9A01BC079E52C4A4C30A1 /* Pods-OnePlayer.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -196,11 +223,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 015AF1B827FAE05B00FB220A /* Build configuration list for PBXNativeTarget "OnePlayer" */;
 			buildPhases = (
-				977009E6041806123CABE8C1 /* [CP] Check Pods Manifest.lock */,
+				334946AE7C7727F9B423F237 /* [CP] Check Pods Manifest.lock */,
 				015AF18727FAE05B00FB220A /* Sources */,
 				015AF18827FAE05B00FB220A /* Frameworks */,
 				015AF18927FAE05B00FB220A /* Resources */,
-				F6A3E1D8E405319F4D003764 /* [CP] Embed Pods Frameworks */,
+				E97AC595A33B9562A6DFEEBC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -319,7 +346,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		977009E6041806123CABE8C1 /* [CP] Check Pods Manifest.lock */ = {
+		334946AE7C7727F9B423F237 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -341,7 +368,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F6A3E1D8E405319F4D003764 /* [CP] Embed Pods Frameworks */ = {
+		E97AC595A33B9562A6DFEEBC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -374,6 +401,7 @@
 				017F1A3027FB24050059EFE4 /* AVAlbumCollectionViewController.swift in Sources */,
 				01DA47A627FC67D100F7841E /* AVPhotosCollectionViewController.swift in Sources */,
 				015AF18F27FAE05B00FB220A /* AppDelegate.swift in Sources */,
+				01CD5DC1280BDBDC007E43F9 /* AVMediaPlayerViewController.swift in Sources */,
 				015AF19127FAE05B00FB220A /* SceneDelegate.swift in Sources */,
 				01DA47A827FC6A6700F7841E /* AVPhotoCollectionViewCell.swift in Sources */,
 				017F1A2A27FAE4580059EFE4 /* AVTabBarViewController.swift in Sources */,
@@ -548,7 +576,7 @@
 		};
 		015AF1B927FAE05B00FB220A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2314D027B9E28F8EF227A17 /* Pods-OnePlayer.debug.xcconfig */;
+			baseConfigurationReference = 5FA78E72EB1B479E072DB325 /* Pods-OnePlayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -582,7 +610,7 @@
 		};
 		015AF1BA27FAE05B00FB220A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3728A60C759E6DAB67C658B1 /* Pods-OnePlayer.release.xcconfig */;
+			baseConfigurationReference = 2CE9A01BC079E52C4A4C30A1 /* Pods-OnePlayer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
