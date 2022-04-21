@@ -67,12 +67,16 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     
     func addGestureRecognizer() {
         
-        view.isUserInteractionEnabled = true
-        let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(showMediaPlayerControllerView))
-        tapGestureRecognizer.delegate = self
-//        view.addGestureRecognizer(tapGestureRecognizer)
-//
-        videoView.addGestureRecognizer(tapGestureRecognizer)
+        videoView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(showMediaPlayerControllerView)))
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        for touch in touches {
+            if touch.view == view {
+                showMediaPlayerControllerView()
+            }
+        }
     }
     
     func addTimer() {
