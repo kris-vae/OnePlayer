@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		013CC60C2801938400FD4F97 /* MobileVLCKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013CC60B2801938400FD4F97 /* MobileVLCKit.xcframework */; };
+		015A1218280DB6ED00DDC02E /* AVMediaListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A1217280DB6ED00DDC02E /* AVMediaListViewController.swift */; };
 		015AF18F27FAE05B00FB220A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF18E27FAE05B00FB220A /* AppDelegate.swift */; };
 		015AF19127FAE05B00FB220A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015AF19027FAE05B00FB220A /* SceneDelegate.swift */; };
 		015AF19627FAE05B00FB220A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 015AF19427FAE05B00FB220A /* Main.storyboard */; };
@@ -52,6 +53,7 @@
 		010FCB8928096E080060741C /* OnePlayer copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "OnePlayer copy-Info.plist"; path = "/Users/kris/Documents/Project/OnePlayer/OnePlayer copy-Info.plist"; sourceTree = "<absolute>"; };
 		013CC60A2801916C00FD4F97 /* OnePlayer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OnePlayer-Bridging-Header.h"; sourceTree = "<group>"; };
 		013CC60B2801938400FD4F97 /* MobileVLCKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MobileVLCKit.xcframework; path = Pods/MobileVLCKit/MobileVLCKit.xcframework; sourceTree = "<group>"; };
+		015A1217280DB6ED00DDC02E /* AVMediaListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVMediaListViewController.swift; sourceTree = "<group>"; };
 		015AF18B27FAE05B00FB220A /* OnePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		015AF18E27FAE05B00FB220A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		015AF19027FAE05B00FB220A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				01CD5DC0280BDBDC007E43F9 /* AVMediaPlayerViewController.swift */,
+				015A1217280DB6ED00DDC02E /* AVMediaListViewController.swift */,
 			);
 			path = AVMediaPlayer;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				01DA47A627FC67D100F7841E /* AVPhotosCollectionViewController.swift in Sources */,
 				015AF18F27FAE05B00FB220A /* AppDelegate.swift in Sources */,
 				01CD5DC1280BDBDC007E43F9 /* AVMediaPlayerViewController.swift in Sources */,
+				015A1218280DB6ED00DDC02E /* AVMediaListViewController.swift in Sources */,
 				015AF19127FAE05B00FB220A /* SceneDelegate.swift in Sources */,
 				01DA47A827FC6A6700F7841E /* AVPhotoCollectionViewCell.swift in Sources */,
 				017F1A2A27FAE4580059EFE4 /* AVTabBarViewController.swift in Sources */,
@@ -591,6 +595,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -625,6 +630,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;

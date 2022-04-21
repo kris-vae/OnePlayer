@@ -9,46 +9,271 @@ import Foundation
 import UIKit
 import MobileVLCKit
 
-class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate{
-    @IBOutlet weak var videoView: UIView!
+class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLCMediaListPlayerDelegate, UIGestureRecognizerDelegate {
     
-    var mediaURL: URL? = URL.init(string: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")
-//    var mediaURL: URL? = URL.init(string: "http://vfx.mtime.cn/Video/2019/03/18/mp4/190318231014076505.mp4")
+    @IBOutlet weak var videoView: UIView!
+    @IBOutlet weak var mediaPlayerControllerView: UIView!
+    
+    @IBOutlet weak var videoViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var videoViewWidthConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var mediaPlayerSlider: UISlider!
+    @IBOutlet weak var mediaPlayerTime: UILabel!
+    
+    @IBOutlet weak var btnPlay: UIButton!
+    @IBOutlet weak var btnFullScreen: UIButton!
+    @IBOutlet weak var btnFastForwardRate: UIButton!
+    
+    @IBOutlet weak var bufferingIndicator: UIActivityIndicatorView!
+    
+    var mediaURL: URL!
     var mediaPlayer: VLCMediaPlayer!
     var media: VLCMedia!
+    var fastForwardRate: Float = 1
     
-//    init(url: URL) {
-//        mediaURL = url
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
-    override var shouldAutorotate: Bool {
-        return true
-    }
+    var noTouchTimer: Timer!
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
-        setupMediaPlayer()
         
-        mediaPlayer.play()
+        super.viewDidLoad()
+        
+        addNotificationObserver()
+        addGestureRecognizer()
+        addTimer()
+        
+        setupUI()
+        setupMediaPlayer()
+        startMediaPlay()
+    }
+    
+    func setupUI() {
+        
+        UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+        
+        hiddenBufferingIndicator()
+        
+        mediaPlayerSlider.setThumbImage(UIImage.init(named: "media.player.slider.circle"), for: .normal)
+        mediaPlayerSlider.minimumTrackTintColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        mediaPlayerSlider.maximumTrackTintColor = #colorLiteral(red: 0.0227137277, green: 0.5683634176, blue: 0.6150920994, alpha: 1)
+        mediaPlayerSlider.value = 0
+        
+        mediaPlayerTime.textColor = .white
+        
+        btnPlay.setImage(UIImage.init(named: "media.player.start"), for: .normal)
+        btnFullScreen.setImage(UIImage.init(named: "media.player.full.screen"), for: .normal)
+        
+        btnFastForwardRate.setAttributedTitle(NSAttributedString.init(string: "1X", attributes: [.font: UIFont.init(name: "Helvetica", size: 12)!]), for: .normal)
+    }
+    
+    func addGestureRecognizer() {
+        
+        view.isUserInteractionEnabled = true
+        let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(showMediaPlayerControllerView))
+        tapGestureRecognizer.delegate = self
+//        view.addGestureRecognizer(tapGestureRecognizer)
+//
+        videoView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    func addTimer() {
+        
+        timerInvalidate()
+        noTouchTimer = Timer.scheduledTimer(timeInterval: 5,
+                                                  target: self,
+                                                selector: #selector(hiddenMediaPlayerControllerView),
+                                                userInfo: nil, repeats: false)
+    }
+    
+    @objc func showMediaPlayerControllerView() {
+        
+        navigationController?.navigationBar.isHidden = false
+        mediaPlayerControllerView.isHidden = false
+        addTimer()
+    }
+    
+    @objc func hiddenMediaPlayerControllerView() {
+        
+        mediaPlayerControllerView.isHidden = true
+        navigationController?.navigationBar.isHidden = true
+    }
+    
+    func addNotificationObserver() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onDeviceOrientationChange),
+                                                         name: UIDevice.orientationDidChangeNotification,
+                                                       object: nil)
+    }
+    
+    @objc func onDeviceOrientationChange() {
+        
+        let orientation = UIDevice.current.orientation
+        switch orientation {
+        case .portrait:
+            videoViewHeightConstraint.constant = 220
+            break;
+        case .landscapeRight, .landscapeLeft, .portraitUpsideDown:
+            videoViewHeightConstraint.constant = view.frame.height
+            break
+        default:
+            videoViewHeightConstraint.constant = 220
+        }
+    }
+    
+    func mediaScaleFactor() -> CGFloat {
+        
+        let videoViewSize = videoView.bounds.size
+        let videoSize = mediaPlayer.videoSize
+        
+        let videoAspectRatio = videoSize.width / videoSize.height
+        let videoViewAspectRatio = videoViewSize.width / videoViewSize.height
+        
+        let scaleFactor = videoViewAspectRatio >= videoAspectRatio ? (videoViewAspectRatio / videoAspectRatio) : 1
+        print(scaleFactor)
+        return scaleFactor
     }
     
     func setupMediaPlayer() {
+        
         let options = ["--codec=avcodec", "--network-caching=300"]
-        media = VLCMedia.init(url: mediaURL!)
+        media = VLCMedia.init(url: mediaURL)
+        
         mediaPlayer = VLCMediaPlayer.init(options: options)
         mediaPlayer.media = media
         mediaPlayer.delegate = self
-        mediaPlayer.drawable = view
+        mediaPlayer.drawable = videoView
+        
+        mediaPlayerTime.text = "\(mediaPlayer.time.stringValue!)/\(mediaPlayer.remainingTime.stringValue!)"
+        
+    }
+    
+    func mediaPlayerTimeChanged(_ aNotification: Notification!) {
+    
+        mediaPlayerTime.text = "\(mediaPlayer.time.stringValue!)/\(mediaPlayer.remainingTime.stringValue!)"
+        mediaPlayerSlider.value = mediaPlayer.position
+        
+        print(mediaPlayer.videoSize)
+        print(mediaPlayer.scaleFactor)
+    }
+    
+    func startMediaPlay() {
+        mediaPlayer.play()
+        btnPlay.setImage(UIImage.init(named: "media.player.stop"), for: .normal)
+    }
+    
+    func pauseMediaPlay() {
+        mediaPlayer.pause()
+        btnPlay.setImage(UIImage.init(named: "media.player.start"), for: .normal)
+    }
+    
+    func hiddenBufferingIndicator() {
+        bufferingIndicator.isHidden = true
+        bufferingIndicator.stopAnimating()
+    }
+    
+    func showBufferingIndicator() {
+        bufferingIndicator.isHidden = false
+        bufferingIndicator.startAnimating()
+    }
+    
+    func mediaPlayerStateChanged(_ aNotification: Notification!) {
+        
+        let status = mediaPlayer.state
+        switch status {
+        case .ended:
+            if UIDevice.current.value(forKey: "orientation") as! Int == UIInterfaceOrientation.landscapeRight.rawValue {
+                UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            }
+            navigationController?.popViewController(animated: true)
+            break
+        case .buffering:
+            hiddenBufferingIndicator()
+            break
+        case .playing:
+            hiddenBufferingIndicator()
+            btnPlay.setImage(UIImage.init(named: "media.player.stop"), for: .normal)
+            break
+        case .opening:
+            break
+        case .paused:
+            hiddenBufferingIndicator()
+            btnPlay.setImage(UIImage.init(named: "media.player.start"), for: .normal)
+            break
+        case .esAdded:
+            break
+        case.stopped:
+           showBufferingIndicator()
+        default:
+            hiddenBufferingIndicator()
+            break
+        }
+    }
+    
+    @IBAction func changePlayerScreenStatus() {
+        
+        let orientation = UIDevice.current.orientation
+        switch orientation {
+        case.portrait:
+            UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
+            btnFullScreen.setImage(UIImage.init(named: "media.player.cancel.full.screen"), for: .normal)
+            break
+        case.landscapeLeft:
+            btnFullScreen.setImage(UIImage.init(named: "media.player.full.screen"), for: .normal)
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            break
+        default:
+            UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
+            btnFullScreen.setImage(UIImage.init(named: "media.player.full.screen"), for: .normal)
+            break;
+        }
+    }
+    
+    @IBAction func changePlayStatus() {
+        
+        if mediaPlayer.state == .paused {
+            startMediaPlay()
+        }else if mediaPlayer.state == .playing || mediaPlayer.state == .buffering {
+            pauseMediaPlay()
+        }
+        
+        showMediaPlayerControllerView()
+    }
+    
+    @IBAction func slider(sender: UISlider) {
+        
+       mediaPlayer.position = sender.value
+    }
+    
+    override var shouldAutorotate: Bool {
+        
+        return true
+    }
+    
+    func timerInvalidate() {
+        
+        if let _ = noTouchTimer {
+            noTouchTimer.invalidate()
+            noTouchTimer = nil
+        }
+    }
+    
+    @IBAction func changeFastFowardRate() {
+        
+        timerInvalidate()
+        
+        if fastForwardRate == 1 {
+            fastForwardRate = 1.5
+            btnFastForwardRate.setAttributedTitle(NSAttributedString.init(string: "1.5X", attributes: [.font: UIFont.init(name: "Helvetica", size: 12)!]), for: .normal)
+            mediaPlayer.fastForward(atRate: 1.5)
+        }else if fastForwardRate == 1.5 {
+            fastForwardRate = 2
+            btnFastForwardRate.setAttributedTitle(NSAttributedString.init(string: "2X", attributes: [.font: UIFont.init(name: "Helvetica", size:12)!]), for: .normal)
+            mediaPlayer.fastForward(atRate: 2)
+        }else if fastForwardRate == 2 {
+            fastForwardRate = 1
+            btnFastForwardRate.setAttributedTitle(NSAttributedString.init(string: "1X", attributes: [.font: UIFont.init(name: "Helvetica", size: 12)!]), for: .normal)
+            mediaPlayer.fastForward(atRate: 1)
+        }
+        
+        addTimer()
     }
 }

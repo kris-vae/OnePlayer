@@ -21,7 +21,11 @@ class AVLocaleTableViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell.init()
-        cell.textLabel?.text = "xiexie"
+        if indexPath.row == 0 {
+            cell.textLabel?.text = "相册"
+        }else {
+            cell.textLabel?.text = "iCloud(但是我暂时还没有实现)"
+        }
         return cell
     }
     
