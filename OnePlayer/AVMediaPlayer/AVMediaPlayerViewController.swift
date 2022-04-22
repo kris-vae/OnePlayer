@@ -25,7 +25,7 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     @IBOutlet weak var btnFastForwardRate: UIButton!
     let rate: [Float] = [1, 1.5, 2]
     let rateDescription: [String] = ["1X", "1.5X", "2X"]
-    var index : Int = 1 {
+    var index : Int = 0 {
         didSet {
             btnFastForwardRate.setAttributedTitle(NSAttributedString.init(string: rateDescription[index], attributes: [.font: UIFont.init(name: "Helvetica", size: 12)!]), for: .normal)
             mediaPlayer.fastForward(atRate: rate[index])
