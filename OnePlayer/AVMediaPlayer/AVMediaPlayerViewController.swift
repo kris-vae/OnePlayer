@@ -15,28 +15,33 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     @IBOutlet weak var mediaPlayerControllerView: UIView!
     
     @IBOutlet weak var videoViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var videoViewWidthConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var mediaPlayerSlider: UISlider!
     @IBOutlet weak var mediaPlayerTime: UILabel!
     
     @IBOutlet weak var btnPlay: UIButton!
     @IBOutlet weak var btnFullScreen: UIButton!
+    
     @IBOutlet weak var btnFastForwardRate: UIButton!
+    let rate: [Float] = [1, 1.5, 2]
+    let rateDescription: [String] = ["1X", "1.5X", "2X"]
+    var index : Int = 1 {
+        didSet {
+            btnFastForwardRate.setAttributedTitle(NSAttributedString.init(string: rateDescription[index], attributes: [.font: UIFont.init(name: "Helvetica", size: 12)!]), for: .normal)
+            mediaPlayer.fastForward(atRate: rate[index])
+        }
+    }
     
     @IBOutlet weak var bufferingIndicator: UIActivityIndicatorView!
     
     var mediaURL: URL!
     var mediaPlayer: VLCMediaPlayer!
     var media: VLCMedia!
-    var fastForwardRate: Float = 1
     
     var noTouchTimer: Timer!
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        
         addNotificationObserver()
         addGestureRecognizer()
         addTimer()
@@ -47,7 +52,6 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     }
     
     func setupUI() {
-        
         UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
         
         hiddenBufferingIndicator()
@@ -66,12 +70,10 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     }
     
     func addGestureRecognizer() {
-        
         videoView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(showMediaPlayerControllerView)))
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         for touch in touches {
             if touch.view == view {
                 showMediaPlayerControllerView()
@@ -80,7 +82,6 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     }
     
     func addTimer() {
-        
         timerInvalidate()
         noTouchTimer = Timer.scheduledTimer(timeInterval: 5,
                                                   target: self,
@@ -89,27 +90,23 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     }
     
     @objc func showMediaPlayerControllerView() {
-        
         navigationController?.navigationBar.isHidden = false
         mediaPlayerControllerView.isHidden = false
         addTimer()
     }
     
     @objc func hiddenMediaPlayerControllerView() {
-        
         mediaPlayerControllerView.isHidden = true
         navigationController?.navigationBar.isHidden = true
     }
     
     func addNotificationObserver() {
-        
         NotificationCenter.default.addObserver(self, selector: #selector(onDeviceOrientationChange),
                                                          name: UIDevice.orientationDidChangeNotification,
                                                        object: nil)
     }
     
     @objc func onDeviceOrientationChange() {
-        
         let orientation = UIDevice.current.orientation
         switch orientation {
         case .portrait:
@@ -123,21 +120,7 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
         }
     }
     
-    func mediaScaleFactor() -> CGFloat {
-        
-        let videoViewSize = videoView.bounds.size
-        let videoSize = mediaPlayer.videoSize
-        
-        let videoAspectRatio = videoSize.width / videoSize.height
-        let videoViewAspectRatio = videoViewSize.width / videoViewSize.height
-        
-        let scaleFactor = videoViewAspectRatio >= videoAspectRatio ? (videoViewAspectRatio / videoAspectRatio) : 1
-        print(scaleFactor)
-        return scaleFactor
-    }
-    
     func setupMediaPlayer() {
-        
         let options = ["--codec=avcodec", "--network-caching=300"]
         media = VLCMedia.init(url: mediaURL)
         
@@ -151,12 +134,8 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     }
     
     func mediaPlayerTimeChanged(_ aNotification: Notification!) {
-    
         mediaPlayerTime.text = "\(mediaPlayer.time.stringValue!)/\(mediaPlayer.remainingTime.stringValue!)"
         mediaPlayerSlider.value = mediaPlayer.position
-        
-        print(mediaPlayer.videoSize)
-        print(mediaPlayer.scaleFactor)
     }
     
     func startMediaPlay() {
@@ -180,7 +159,6 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     }
     
     func mediaPlayerStateChanged(_ aNotification: Notification!) {
-        
         let status = mediaPlayer.state
         switch status {
         case .ended:
@@ -213,7 +191,6 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     }
     
     @IBAction func changePlayerScreenStatus() {
-        
         let orientation = UIDevice.current.orientation
         switch orientation {
         case.portrait:
@@ -232,7 +209,6 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     }
     
     @IBAction func changePlayStatus() {
-        
         if mediaPlayer.state == .paused {
             startMediaPlay()
         }else if mediaPlayer.state == .playing || mediaPlayer.state == .buffering {
@@ -243,17 +219,14 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     }
     
     @IBAction func slider(sender: UISlider) {
-        
        mediaPlayer.position = sender.value
     }
     
     override var shouldAutorotate: Bool {
-        
         return true
     }
     
     func timerInvalidate() {
-        
         if let _ = noTouchTimer {
             noTouchTimer.invalidate()
             noTouchTimer = nil
@@ -261,23 +234,8 @@ class AVMediaPlayerViewController: UIViewController, VLCMediaPlayerDelegate, VLC
     }
     
     @IBAction func changeFastFowardRate() {
-        
         timerInvalidate()
-        
-        if fastForwardRate == 1 {
-            fastForwardRate = 1.5
-            btnFastForwardRate.setAttributedTitle(NSAttributedString.init(string: "1.5X", attributes: [.font: UIFont.init(name: "Helvetica", size: 12)!]), for: .normal)
-            mediaPlayer.fastForward(atRate: 1.5)
-        }else if fastForwardRate == 1.5 {
-            fastForwardRate = 2
-            btnFastForwardRate.setAttributedTitle(NSAttributedString.init(string: "2X", attributes: [.font: UIFont.init(name: "Helvetica", size:12)!]), for: .normal)
-            mediaPlayer.fastForward(atRate: 2)
-        }else if fastForwardRate == 2 {
-            fastForwardRate = 1
-            btnFastForwardRate.setAttributedTitle(NSAttributedString.init(string: "1X", attributes: [.font: UIFont.init(name: "Helvetica", size: 12)!]), for: .normal)
-            mediaPlayer.fastForward(atRate: 1)
-        }
-        
+        index = (index + 1) % rate.count
         addTimer()
     }
 }

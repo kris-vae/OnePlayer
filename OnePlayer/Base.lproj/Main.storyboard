@@ -215,7 +215,6 @@
                         <outlet property="mediaPlayerTime" destination="NIa-Go-mvo" id="Rek-K0-cg2"/>
                         <outlet property="videoView" destination="2Wa-En-daN" id="sWe-Mv-con"/>
                         <outlet property="videoViewHeightConstraint" destination="RAo-YL-Xjz" id="MoD-WV-d6t"/>
-                        <outlet property="videoViewWidthConstraint" destination="byD-vO-UJu" id="HHm-pn-Okp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2QJ-Qw-rlT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
